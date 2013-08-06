@@ -44,5 +44,4 @@ class MainWindow < Gosu::Window
   end
 end
 
-window = MainWindow.new
-window.show
+MainWindow.new.show
