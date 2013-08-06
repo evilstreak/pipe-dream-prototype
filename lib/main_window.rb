@@ -1,9 +1,12 @@
 require 'gosu'
+require './lib/tile.rb'
 
 class MainWindow < Gosu::Window
   def initialize
     super(960, 640, false)
     self.caption = 'Pipe Dreams'
+
+    @square = Tile.new(self, 10, 10, 96, Gosu::Color::WHITE)
   end
 
   # Called 60 times per second to update game state.
@@ -13,6 +16,7 @@ class MainWindow < Gosu::Window
   # Usually called after update, sometimes more or less frequently due to
   # frame rate. Draw the whole screen here, no state changes.
   def draw
+    @square.draw
   end
 
   # Enables display of the system cursor
