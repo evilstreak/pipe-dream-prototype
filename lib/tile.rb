@@ -6,12 +6,11 @@ class Tile
   attr_reader :window
   attr_accessor :x, :y, :size, :color
 
-  def initialize(window, x, y, size, color)
+  def initialize(window, x, y, size)
     @window = window
     @x = x
     @y = y
     @size = size
-    @color = color
   end
 
   def draw
@@ -24,6 +23,10 @@ class Tile
   end
 
   private
+
+  def color
+    dragging? ? Gosu::Color::GRAY : Gosu::Color::WHITE
+  end
 
   # Top left corner
   def x1; x + offset_x; end

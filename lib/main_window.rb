@@ -6,7 +6,7 @@ class MainWindow < Gosu::Window
     super(960, 640, false)
     self.caption = 'Pipe Dreams'
 
-    @square = Tile.new(self, 10, 10, 96, Gosu::Color::WHITE)
+    @square = Tile.new(self, 10, 10, 96)
   end
 
   # Called 60 times per second to update game state.
@@ -29,7 +29,6 @@ class MainWindow < Gosu::Window
     case key
     when Gosu::MsLeft
       if @square.under_mouse?
-        @square.color = Gosu::Color::GRAY
         @square.start_dragging
       end
     end
@@ -40,7 +39,6 @@ class MainWindow < Gosu::Window
     when Gosu::MsLeft
       if @square.dragging?
         @square.stop_dragging
-        @square.color = Gosu::Color::WHITE
       end
     end
   end
