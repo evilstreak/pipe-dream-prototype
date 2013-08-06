@@ -23,6 +23,14 @@ class MainWindow < Gosu::Window
   def needs_cursor?
     true
   end
+
+  # Called every time the game receives input from keyboard or mouse.
+  def button_down(key)
+    case key
+    when Gosu::MsLeft
+      @square.color = Gosu::Color::GRAY if @square.under_mouse?
+    end
+  end
 end
 
 window = MainWindow.new

@@ -14,6 +14,11 @@ class Tile
     window.draw_quad(x1, y1, color, x2, y2, color, x3, y3, color, x4, y4, color)
   end
 
+  def under_mouse?
+    window.mouse_x >= x1 && window.mouse_x <= x3 &&
+      window.mouse_y >= y1 && window.mouse_y <= y3
+  end
+
   private
 
   # Top left corner
