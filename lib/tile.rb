@@ -4,7 +4,7 @@ class Tile
   include Draggable
 
   attr_reader :window
-  attr_accessor :x, :y, :size, :color
+  attr_accessor :x, :y, :size
 
   def initialize(window, x, y, size)
     @window = window
