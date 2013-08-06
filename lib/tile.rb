@@ -1,4 +1,8 @@
+require './lib/draggable.rb'
+
 class Tile
+  include Draggable
+
   attr_reader :window
   attr_accessor :x, :y, :size, :color
 
@@ -22,8 +26,8 @@ class Tile
   private
 
   # Top left corner
-  def x1; x; end
-  def y1; y; end
+  def x1; x + offset_x; end
+  def y1; y + offset_y; end
 
   # Top right corner
   def x2; x1 + size; end

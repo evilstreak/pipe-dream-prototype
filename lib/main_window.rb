@@ -28,7 +28,20 @@ class MainWindow < Gosu::Window
   def button_down(key)
     case key
     when Gosu::MsLeft
-      @square.color = Gosu::Color::GRAY if @square.under_mouse?
+      if @square.under_mouse?
+        @square.color = Gosu::Color::GRAY
+        @square.start_dragging
+      end
+    end
+  end
+
+  def button_up(key)
+    case key
+    when Gosu::MsLeft
+      if @square.dragging?
+        @square.stop_dragging
+        @square.color = Gosu::Color::WHITE
+      end
     end
   end
 end
