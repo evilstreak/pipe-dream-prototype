@@ -15,8 +15,8 @@ class Tile
   end
 
   def under_mouse?
-    window.mouse_x >= x1 && window.mouse_x <= x3 &&
-      window.mouse_y >= y1 && window.mouse_y <= y3
+    window.mouse_x >= x1 && window.mouse_x <= x4 &&
+      window.mouse_y >= y1 && window.mouse_y <= y4
   end
 
   private
@@ -26,14 +26,14 @@ class Tile
   def y1; y; end
 
   # Top right corner
-  def x2; x + size; end
-  def y2; y; end
-
-  # Bottom right corner
-  def x3; x + size; end
-  def y3; y + size; end
+  def x2; x1 + size; end
+  def y2; y1; end
 
   # Bottom left corner
-  def x4; x; end
-  def y4; y + size; end
+  def x3; x1; end
+  def y3; y1 + size; end
+
+  # Bottom right corner
+  def x4; x2; end
+  def y4; y3; end
 end
