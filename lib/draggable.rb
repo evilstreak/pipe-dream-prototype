@@ -1,7 +1,7 @@
 module Draggable
   def start_dragging
-    @draggable_origin_x = window.mouse_x
-    @draggable_origin_y = window.mouse_y
+    @draggable_origin_x = @window.mouse_x
+    @draggable_origin_y = @window.mouse_y
   end
 
   def stop_dragging
@@ -21,10 +21,10 @@ module Draggable
   private
 
   def offset_x
-    dragging? ? window.mouse_x - @draggable_origin_x : 0
+    dragging? ? @window.mouse_x - @draggable_origin_x : 0
   end
 
   def offset_y
-    dragging? ? window.mouse_y - @draggable_origin_y : 0
+    dragging? ? @window.mouse_y - @draggable_origin_y : 0
   end
 end
