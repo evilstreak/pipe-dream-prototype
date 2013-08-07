@@ -8,11 +8,7 @@ class Grid
   CELL_PADDING = 1
 
   def initialize(window, point, columns, rows, cell_size)
-    @background = Rectangle.new(window,
-                                top_left: point,
-                                bottom_right: Point.new(point.x + columns * cell_size,
-                                                        point.y + rows * cell_size),
-                                color: BORDER_COLOR)
+    @background = build_background(window, point, columns, rows, cell_size)
 
     @cells = rows.times.flat_map do |row_index|
       build_row(window, point.x, point.y + row_index * cell_size, columns,
@@ -44,6 +40,15 @@ class Grid
   end
 
   private
+
+  def build_background(window, top_left, columns, rows, cell_size)
+    bottom_right = Point.new(top_left.x + columns * cell_size,
+                             top_left.y + rows * cell_size)
+
+    Rectangle.new(window, top_left: top_left,
+                          bottom_right: bottom_right,
+                          color: BORDER_COLOR)
+  end
 
   def build_row(window, x, y, cell_count, cell_size)
     cell_count.times.map do |cell_index|
