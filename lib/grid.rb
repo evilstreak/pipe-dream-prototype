@@ -5,21 +5,14 @@ class Grid
   CELL_HIGHLIGHT_COLOR = Gosu::Color::RED
   BORDER_COLOR = Gosu::Color::WHITE
 
-  def initialize(window, x, y, columns, rows, tile_size)
+  def initialize(window, x, y, columns, rows, cell_size)
     @background = Rectangle.new(window, x1: x, y1: y,
-                                x2: y + columns * tile_size,
-                                y2: y + rows * tile_size,
+                                x2: y + columns * cell_size,
+                                y2: y + rows * cell_size,
                                 color: BORDER_COLOR)
 
-    @cells = columns.times.flat_map do |col_index|
-      rows.times.map do |row_index|
-        Rectangle.new(window,
-                      x1: x + col_index * tile_size + 1,
-                      y1: y + row_index * tile_size + 1,
-                      x2: x + (col_index + 1) * tile_size - 1,
-                      y2: y + (row_index + 1) * tile_size - 1,
-                      color: CELL_COLOR)
-      end
+    @cells = rows.times.flat_map do |row_index|
+      build_row(window, x, y + row_index * cell_size, columns, cell_size)
     end
   end
 
@@ -44,5 +37,18 @@ class Grid
   def stop_snapping
     @snappable = nil
     @cells.each { |cell| cell.color = CELL_COLOR }
+  end
+
+  private
+
+  def build_row(window, x, y, cell_count, cell_size)
+    cell_count.times.map do |cell_index|
+      Rectangle.new(window,
+                    x1: x + cell_index * cell_size + 1,
+                    y1: y + 1,
+                    x2: x + (cell_index + 1) * cell_size - 1,
+                    y2: y + cell_size - 1,
+                    color: CELL_COLOR)
+    end
   end
 end
