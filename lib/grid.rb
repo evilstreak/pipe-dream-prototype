@@ -19,8 +19,26 @@ class Grid
     end
   end
 
+  def update
+    if @snappable
+      @cells.each do |cell|
+        # TODO: It seems slightly abusive to update every cell on every update
+        cell.color = cell.under_mouse? ? Gosu::Color::RED : Gosu::Color::GRAY
+      end
+    end
+  end
+
   def draw
     @background.draw
     @cells.each(&:draw)
+  end
+
+  def start_snapping(tile)
+    @snappable = tile
+  end
+
+  def stop_snapping
+    @snappable = nil
+    @cells.each { |cell| cell.color = Gosu::Color::GRAY }
   end
 end

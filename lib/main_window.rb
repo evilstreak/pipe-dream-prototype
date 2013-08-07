@@ -13,6 +13,7 @@ class MainWindow < Gosu::Window
 
   # Called 60 times per second to update game state.
   def update
+    @grid.update
   end
 
   # Usually called after update, sometimes more or less frequently due to
@@ -33,6 +34,7 @@ class MainWindow < Gosu::Window
     when Gosu::MsLeft
       if @square.under_mouse?
         @square.start_dragging
+        @grid.start_snapping(@square)
       end
     end
   end
@@ -40,9 +42,8 @@ class MainWindow < Gosu::Window
   def button_up(key)
     case key
     when Gosu::MsLeft
-      if @square.dragging?
-        @square.stop_dragging
-      end
+      @square.stop_dragging
+      @grid.stop_snapping
     end
   end
 end
