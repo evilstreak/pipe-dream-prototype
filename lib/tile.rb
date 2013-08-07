@@ -4,6 +4,9 @@ require './lib/draggable.rb'
 class Tile < Rectangle
   include Draggable
 
+  TILE_COLOR = Gosu::Color::BLUE
+  TILE_HIGHLIGHT_COLOR = Gosu::Color::GREEN
+
   attr_accessor :x, :y, :size
 
   def initialize(window, x, y, size)
@@ -16,7 +19,7 @@ class Tile < Rectangle
   private
 
   def color
-    dragging? ? Gosu::Color::GRAY : Gosu::Color::WHITE
+    dragging? ? TILE_HIGHLIGHT_COLOR : TILE_COLOR
   end
 
   # Top left corner
