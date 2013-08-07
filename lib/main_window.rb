@@ -1,4 +1,5 @@
 require 'gosu'
+require './lib/point.rb'
 require './lib/tile.rb'
 require './lib/grid.rb'
 
@@ -7,8 +8,8 @@ class MainWindow < Gosu::Window
     super(960, 640, false)
     self.caption = 'Pipe Dreams'
 
-    @grid = Grid.new(self, 80, 80, 5, 5, 96)
-    @square = Tile.new(self, 10, 10, 96)
+    @grid = Grid.new(self, Point.new(80, 80), 5, 5, 96)
+    @square = Tile.new(self, Point.new(10, 10), 96)
   end
 
   # Called 60 times per second to update game state.

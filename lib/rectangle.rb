@@ -1,5 +1,7 @@
+require './lib/point.rb'
+
 class Rectangle
-  attr_accessor :x1, :y1, :x2, :y2, :color
+  attr_accessor :top_left, :bottom_right, :color
 
   def initialize(window, attributes = {})
     @window = window
@@ -9,15 +11,18 @@ class Rectangle
   end
 
   def draw
-    @window.draw_quad(x1, y1, color, x2, y1, color,
-                      x1, y2, color, x2, y2, color)
+    @window.draw_quad(top_left.x, top_left.y, color,
+                      bottom_right.x, top_left.y, color,
+                      top_left.x, bottom_right.y, color,
+                      bottom_right.x, bottom_right.y, color)
   end
 
   def under_mouse?
-    contains_point?(@window.mouse_x, @window.mouse_y)
+    contains_point?(Point.new(@window.mouse_x, @window.mouse_y))
   end
 
-  def contains_point?(x, y)
-    x >= x1 && x <= x2 && y >= y1 && y <= y2
+  def contains_point?(point)
+    point.x >= top_left.x && point.x <= bottom_right.x &&
+      point.y >= top_left.y && point.y <= bottom_right.y
   end
 end

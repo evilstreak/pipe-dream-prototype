@@ -1,3 +1,4 @@
+require './lib/point.rb'
 require './lib/rectangle.rb'
 
 class Grid
@@ -6,14 +7,16 @@ class Grid
   BORDER_COLOR = Gosu::Color::WHITE
   CELL_PADDING = 1
 
-  def initialize(window, x, y, columns, rows, cell_size)
-    @background = Rectangle.new(window, x1: x, y1: y,
-                                x2: y + columns * cell_size,
-                                y2: y + rows * cell_size,
+  def initialize(window, point, columns, rows, cell_size)
+    @background = Rectangle.new(window,
+                                top_left: point,
+                                bottom_right: Point.new(point.x + columns * cell_size,
+                                                        point.y + rows * cell_size),
                                 color: BORDER_COLOR)
 
     @cells = rows.times.flat_map do |row_index|
-      build_row(window, x, y + row_index * cell_size, columns, cell_size)
+      build_row(window, point.x, point.y + row_index * cell_size, columns,
+                cell_size)
     end
   end
 
@@ -44,11 +47,12 @@ class Grid
 
   def build_row(window, x, y, cell_count, cell_size)
     cell_count.times.map do |cell_index|
-      Rectangle.new(window,
-                    x1: x + cell_index * cell_size + CELL_PADDING,
-                    y1: y + CELL_PADDING,
-                    x2: x + (cell_index + 1) * cell_size - CELL_PADDING,
-                    y2: y + cell_size - CELL_PADDING,
+      top_left = Point.new(x + cell_index * cell_size + CELL_PADDING,
+                           y + CELL_PADDING)
+      bottom_right = Point.new(x + (cell_index + 1) * cell_size - CELL_PADDING,
+                               y + cell_size - CELL_PADDING)
+
+      Rectangle.new(window, top_left: top_left, bottom_right: bottom_right,
                     color: CELL_COLOR)
     end
   end

@@ -1,3 +1,4 @@
+require './lib/point.rb'
 require './lib/rectangle.rb'
 require './lib/draggable.rb'
 
@@ -7,12 +8,11 @@ class Tile < Rectangle
   TILE_COLOR = Gosu::Color::BLUE
   TILE_HIGHLIGHT_COLOR = Gosu::Color::GREEN
 
-  attr_accessor :x, :y, :size
+  attr_accessor :point, :size
 
-  def initialize(window, x, y, size)
+  def initialize(window, point, size)
     super(window)
-    @x = x
-    @y = y
+    @point = point
     @size = size
   end
 
@@ -22,11 +22,11 @@ class Tile < Rectangle
     dragging? ? TILE_HIGHLIGHT_COLOR : TILE_COLOR
   end
 
-  # Top left corner
-  def x1; x + offset_x; end
-  def y1; y + offset_y; end
+  def top_left
+    Point.new(point.x + offset_x, point.y + offset_y)
+  end
 
-  # Bottom right corner
-  def x2; x1 + size; end
-  def y2; y1 + size; end
+  def bottom_right
+    Point.new(top_left.x + size, top_left.y + size)
+  end
 end
