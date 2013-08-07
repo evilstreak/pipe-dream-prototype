@@ -7,7 +7,7 @@ class Tile < Rectangle
   attr_accessor :x, :y, :size
 
   def initialize(window, x, y, size)
-    super(window, color: Gosu::Color::WHITE)
+    super(window)
     @x = x
     @y = y
     @size = size

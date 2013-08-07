@@ -1,7 +1,7 @@
 class Rectangle
   attr_accessor :x1, :y1, :x2, :y2, :color
 
-  def initialize(window, attributes)
+  def initialize(window, attributes = {})
     @window = window
     attributes.each do |attr, value|
       send("#{attr}=", value)
