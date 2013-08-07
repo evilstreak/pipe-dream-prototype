@@ -14,7 +14,10 @@ class Rectangle
   end
 
   def under_mouse?
-    @window.mouse_x >= x1 && @window.mouse_x <= x2 &&
-      @window.mouse_y >= y1 && @window.mouse_y <= y2
+    contains_point?(@window.mouse_x, @window.mouse_y)
+  end
+
+  def contains_point?(x, y)
+    x >= x1 && x <= x2 && y >= y1 && y <= y2
   end
 end
