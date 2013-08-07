@@ -25,4 +25,9 @@ class Rectangle
     point.x >= top_left.x && point.x <= bottom_right.x &&
       point.y >= top_left.y && point.y <= bottom_right.y
   end
+
+  def center
+    Point.new((top_left.x + bottom_right.x) / 2,
+              (top_left.y + bottom_right.y) / 2)
+  end
 end

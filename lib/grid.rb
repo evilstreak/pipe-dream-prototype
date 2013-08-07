@@ -20,7 +20,11 @@ class Grid
     if @snappable
       @cells.each do |cell|
         # TODO: It seems slightly abusive to update every cell on every update
-        cell.color = cell.under_mouse? ? CELL_HIGHLIGHT_COLOR : CELL_COLOR
+        if cell.contains_point?(@snappable.center)
+          cell.color = CELL_HIGHLIGHT_COLOR
+        else
+          cell.color = CELL_COLOR
+        end
       end
     end
   end
