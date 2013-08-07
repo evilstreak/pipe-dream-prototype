@@ -38,9 +38,7 @@ class Grid
   def drop
     cell = cell_containing(@draggable.center)
     @draggable = nil
-    if cell
-      Point.new(cell.top_left.x - CELL_PADDING, cell.top_left.y - CELL_PADDING)
-    end
+    cell.top_left.offset(-CELL_PADDING, -CELL_PADDING) if cell
   end
 
   private
@@ -52,8 +50,7 @@ class Grid
   end
 
   def build_background(window, top_left, columns, rows, cell_size)
-    bottom_right = Point.new(top_left.x + columns * cell_size,
-                             top_left.y + rows * cell_size)
+    bottom_right = top_left.offset(columns * cell_size, rows * cell_size)
 
     Rectangle.new(window, top_left: top_left,
                           bottom_right: bottom_right,

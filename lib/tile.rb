@@ -24,10 +24,10 @@ class Tile < Rectangle
   end
 
   def top_left
-    Point.new(point.x + offset_x, point.y + offset_y)
+    point.offset(offset_x, offset_y)
   end
 
   def bottom_right
-    Point.new(top_left.x + size, top_left.y + size)
+    top_left.offset(size, size)
   end
 end
