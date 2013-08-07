@@ -9,7 +9,7 @@ class MainWindow < Gosu::Window
     self.caption = 'Pipe Dreams'
 
     @grid = Grid.new(self, Point.new(80, 80), 5, 5, 96)
-    @square = Tile.new(self, Point.new(10, 10), 96)
+    @square = Tile.new(self, Point.new(10, 10), 96, @grid)
   end
 
   # Called 60 times per second to update game state.
@@ -35,7 +35,6 @@ class MainWindow < Gosu::Window
     when Gosu::MsLeft
       if @square.under_mouse?
         @square.start_dragging
-        @grid.start_snapping(@square)
       end
     end
   end
@@ -44,7 +43,6 @@ class MainWindow < Gosu::Window
     case key
     when Gosu::MsLeft
       @square.stop_dragging
-      @grid.stop_snapping
     end
   end
 end

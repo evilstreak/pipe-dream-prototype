@@ -10,10 +10,11 @@ class Tile < Rectangle
 
   attr_accessor :point, :size
 
-  def initialize(window, point, size)
+  def initialize(window, point, size, droppable)
     super(window)
     @point = point
     @size = size
+    @droppable = droppable
   end
 
   private

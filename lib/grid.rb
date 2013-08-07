@@ -17,14 +17,11 @@ class Grid
   end
 
   def update
-    if @snappable
-      @cells.each do |cell|
-        # TODO: It seems slightly abusive to update every cell on every update
-        if cell.contains_point?(@snappable.center)
-          cell.color = CELL_HIGHLIGHT_COLOR
-        else
-          cell.color = CELL_COLOR
-        end
+    @cells.each do |cell|
+      if @draggable && cell.contains_point?(@draggable.center)
+        cell.color = CELL_HIGHLIGHT_COLOR
+      else
+        cell.color = CELL_COLOR
       end
     end
   end
@@ -34,13 +31,14 @@ class Grid
     @cells.each(&:draw)
   end
 
-  def start_snapping(tile)
-    @snappable = tile
+  # Show where this draggable should snap to when dropped
+  def snap(draggable)
+    @draggable = draggable
   end
 
-  def stop_snapping
-    @snappable = nil
-    @cells.each { |cell| cell.color = CELL_COLOR }
+  # @returns the point this draggable should snap to, or nil if it won't snap
+  def drop(draggable)
+    nil
   end
 
   private
