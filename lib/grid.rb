@@ -17,12 +17,10 @@ class Grid
   end
 
   def update
-    @cells.each do |cell|
-      if @draggable && cell.contains_point?(@draggable.center)
-        cell.color = CELL_HIGHLIGHT_COLOR
-      else
-        cell.color = CELL_COLOR
-      end
+    @cells.each { |cell| cell.color = CELL_COLOR }
+    if @draggable
+      snap_cell = cell_containing(@draggable.center)
+      snap_cell.color = CELL_HIGHLIGHT_COLOR if snap_cell
     end
   end
 
@@ -37,11 +35,21 @@ class Grid
   end
 
   # @returns the point this draggable should snap to, or nil if it won't snap
-  def drop(draggable)
-    nil
+  def drop
+    cell = cell_containing(@draggable.center)
+    @draggable = nil
+    if cell
+      Point.new(cell.top_left.x - CELL_PADDING, cell.top_left.y - CELL_PADDING)
+    end
   end
 
   private
+
+  def cell_containing(point)
+    @cells.find do |cell|
+      cell.contains_point?(point)
+    end
+  end
 
   def build_background(window, top_left, columns, rows, cell_size)
     bottom_right = Point.new(top_left.x + columns * cell_size,

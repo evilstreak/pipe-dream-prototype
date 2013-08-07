@@ -6,9 +6,8 @@ module Draggable
 
   def stop_dragging
     if dragging?
-      if (snap_point = @droppable.drop(self))
-        self.point = snap_point
-      end
+      snap_point = @droppable.drop
+      self.point = snap_point if snap_point
       @draggable_origin = nil
     end
   end
