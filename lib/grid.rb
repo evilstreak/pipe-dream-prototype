@@ -4,6 +4,7 @@ class Grid
   CELL_COLOR = Gosu::Color::GRAY
   CELL_HIGHLIGHT_COLOR = Gosu::Color::RED
   BORDER_COLOR = Gosu::Color::WHITE
+  CELL_PADDING = 1
 
   def initialize(window, x, y, columns, rows, cell_size)
     @background = Rectangle.new(window, x1: x, y1: y,
@@ -44,10 +45,10 @@ class Grid
   def build_row(window, x, y, cell_count, cell_size)
     cell_count.times.map do |cell_index|
       Rectangle.new(window,
-                    x1: x + cell_index * cell_size + 1,
-                    y1: y + 1,
-                    x2: x + (cell_index + 1) * cell_size - 1,
-                    y2: y + cell_size - 1,
+                    x1: x + cell_index * cell_size + CELL_PADDING,
+                    y1: y + CELL_PADDING,
+                    x2: x + (cell_index + 1) * cell_size - CELL_PADDING,
+                    y2: y + cell_size - CELL_PADDING,
                     color: CELL_COLOR)
     end
   end
