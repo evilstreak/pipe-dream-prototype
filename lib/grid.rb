@@ -52,9 +52,7 @@ class Grid
   def build_background(window, top_left, columns, rows, cell_size)
     bottom_right = top_left.offset(columns * cell_size, rows * cell_size)
 
-    Rectangle.new(window, top_left: top_left,
-                          bottom_right: bottom_right,
-                          color: BORDER_COLOR)
+    Rectangle.from_points(window, top_left, bottom_right, BORDER_COLOR)
   end
 
   def build_row(window, x, y, cell_count, cell_size)
@@ -64,8 +62,7 @@ class Grid
       bottom_right = Point.new(x + (cell_index + 1) * cell_size - CELL_PADDING,
                                y + cell_size - CELL_PADDING)
 
-      Rectangle.new(window, top_left: top_left, bottom_right: bottom_right,
-                    color: CELL_COLOR)
+      Rectangle.from_points(window, top_left, bottom_right, CELL_COLOR)
     end
   end
 end

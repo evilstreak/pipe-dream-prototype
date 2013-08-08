@@ -12,7 +12,7 @@ module Draggable
     if dragging?
       snap_point = @droppable.drop
       if snap_point
-        self.point = snap_point
+        offset(snap_point.x - @left, snap_point.y - @top)
         @droppable = nil
       end
       @draggable_origin = nil

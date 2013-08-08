@@ -4,9 +4,7 @@ class TileRack
   RACK_COLOR = Gosu::Color::GRAY
 
   def initialize(window, top_left, bottom_right, tile_count, droppable)
-    @background = Rectangle.new(window, top_left: top_left,
-                                        bottom_right: bottom_right,
-                                        color: RACK_COLOR)
+    @background = Rectangle.from_points(window, top_left, bottom_right, RACK_COLOR)
 
     @tiles = build_tiles(window, top_left, bottom_right, tile_count, droppable)
   end
@@ -32,14 +30,11 @@ class TileRack
   private
 
   def build_tiles(window, top_left, bottom_right, tile_count, droppable)
-    x_offset = (bottom_right.x - top_left.x - 96) / 2
-    tile_offset = (bottom_right.y - top_left.y) / tile_count
-    y_offset = (tile_offset - 96) / 2
+    offset = (bottom_right.y - top_left.y) / tile_count
+    point = top_left.offset((bottom_right.x - top_left.x) / 2, offset / 2)
+
     tile_count.times.map do |index|
-      Tile.new(window,
-               top_left.offset(x_offset, y_offset + tile_offset * index),
-               96,
-               droppable)
+      Tile.new(window, point.offset(0, offset * index), 96, droppable)
     end
   end
 end
