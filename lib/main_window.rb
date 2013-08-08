@@ -2,6 +2,7 @@ require 'gosu'
 require './lib/point.rb'
 require './lib/tile.rb'
 require './lib/grid.rb'
+require './lib/tile_rack.rb'
 
 class MainWindow < Gosu::Window
   def initialize
@@ -9,7 +10,7 @@ class MainWindow < Gosu::Window
     self.caption = 'Pipe Dreams'
 
     @grid = Grid.new(self, Point.new(80, 80), 5, 5, 96)
-    @square = Tile.new(self, Point.new(10, 10), 96, @grid)
+    @rack = TileRack.new(self, Point.new(640,80), Point.new(880,560), 4, @grid)
   end
 
   # Called 60 times per second to update game state.
@@ -21,7 +22,7 @@ class MainWindow < Gosu::Window
   # frame rate. Draw the whole screen here, no state changes.
   def draw
     @grid.draw
-    @square.draw
+    @rack.draw
   end
 
   # Enables display of the system cursor
@@ -33,8 +34,8 @@ class MainWindow < Gosu::Window
   def button_down(key)
     case key
     when Gosu::MsLeft
-      if @square.under_mouse?
-        @square.start_dragging
+      if @rack.under_mouse?
+        @rack.mouse_down
       end
     end
   end
@@ -42,7 +43,7 @@ class MainWindow < Gosu::Window
   def button_up(key)
     case key
     when Gosu::MsLeft
-      @square.stop_dragging
+      @rack.mouse_up
     end
   end
 end
