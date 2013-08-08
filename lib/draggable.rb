@@ -1,19 +1,28 @@
 module Draggable
   def start_dragging
-    @draggable_origin = Point.new(@window.mouse_x, @window.mouse_y)
-    @droppable.snap(self)
+    if draggable?
+      @draggable_origin = Point.new(@window.mouse_x, @window.mouse_y)
+      @droppable.snap(self)
+    end
   end
 
   def stop_dragging
     if dragging?
       snap_point = @droppable.drop
-      self.point = snap_point if snap_point
+      if snap_point
+        self.point = snap_point
+        @droppable = nil
+      end
       @draggable_origin = nil
     end
   end
 
   def dragging?
-    @draggable_origin
+    !@draggable_origin.nil?
+  end
+
+  def draggable?
+    !@droppable.nil?
   end
 
   private
