@@ -9,6 +9,8 @@ class Cell
   BACKGROUND_COLOR = Gosu::Color::GRAY
   HIGHLIGHT_COLOR = Gosu::Color::RED
 
+  attr_accessor :tile
+
   def_delegators :@background, :color=
   def_delegators :@border, :top_left, :contains_point?
 
@@ -24,6 +26,10 @@ class Cell
   end
 
   def will_snap?(draggable)
-    contains_point?(draggable.center)
+    !filled? && contains_point?(draggable.center)
+  end
+
+  def filled?
+    !@tile.nil?
   end
 end

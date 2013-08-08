@@ -36,6 +36,7 @@ class Grid
   # @returns the point this draggable should snap to, or nil if it won't snap
   def drop
     cell = snap_cell(@draggable)
+    cell.tile = @draggable if cell
     @draggable = nil
     cell.top_left if cell
   end
