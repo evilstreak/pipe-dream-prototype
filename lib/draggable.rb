@@ -1,3 +1,5 @@
+require './lib/point.rb'
+
 module Draggable
   def start_dragging
     if draggable?
