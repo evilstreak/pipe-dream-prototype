@@ -3,8 +3,11 @@ require './lib/point.rb'
 require './lib/tile.rb'
 require './lib/grid.rb'
 require './lib/tile_rack.rb'
+require './lib/eventable.rb'
 
 class MainWindow < Gosu::Window
+  include Eventable
+
   def initialize
     super(960, 640, false)
     self.caption = 'Pipe Dreams'
@@ -34,16 +37,14 @@ class MainWindow < Gosu::Window
   def button_down(key)
     case key
     when Gosu::MsLeft
-      if @rack.under_mouse?
-        @rack.mouse_down
-      end
+      emit(:mouse_down)
     end
   end
 
   def button_up(key)
     case key
     when Gosu::MsLeft
-      @rack.mouse_up
+      emit(:mouse_up)
     end
   end
 end

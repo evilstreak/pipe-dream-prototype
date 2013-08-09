@@ -7,6 +7,9 @@ class TileRack
     @background = Rectangle.from_points(window, top_left, bottom_right, RACK_COLOR)
 
     @tiles = build_tiles(window, top_left, bottom_right, tile_count, droppable)
+
+    window.listen(:mouse_down, method(:on_mouse_down))
+    window.listen(:mouse_up, method(:on_mouse_up))
   end
 
   def draw
@@ -14,20 +17,22 @@ class TileRack
     @tiles.each(&:draw)
   end
 
-  def under_mouse?
-    @background.under_mouse?
+  def on_mouse_down
+    if under_mouse?
+      tile = @tiles.find(&:under_mouse?)
+      tile.start_dragging if tile
+    end
   end
 
-  def mouse_down
-    tile = @tiles.find(&:under_mouse?)
-    tile.start_dragging if tile
-  end
-
-  def mouse_up
+  def on_mouse_up
     @tiles.each(&:stop_dragging)
   end
 
   private
+
+  def under_mouse?
+    @background.under_mouse?
+  end
 
   def build_tiles(window, top_left, bottom_right, tile_count, droppable)
     offset = (bottom_right.y - top_left.y) / tile_count
