@@ -18,10 +18,7 @@ class TileRack
   end
 
   def on_mouse_down
-    if under_mouse?
-      tile = @tiles.find(&:under_mouse?)
-      tile.start_dragging if tile
-    end
+    @tiles.each(&:on_mouse_down) if under_mouse?
   end
 
   def on_mouse_up
