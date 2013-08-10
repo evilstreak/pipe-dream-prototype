@@ -6,31 +6,26 @@ class Tile
   include Draggable
   extend Forwardable
 
-  TILE_COLOR = Gosu::Color::BLUE
-  TILE_HIGHLIGHT_COLOR = Gosu::Color::GREEN
-
-  def_delegators :@background, :draw, :move_to, :top_left, :offset, :under_mouse?, :center
+  def_delegators :@background, :draw, :move_to, :top_left, :offset,
+                               :under_mouse?, :center, :left, :top
 
   def initialize(window, center, width)
     @window = window
-    @background = Square.from_center(@window, center, width, TILE_COLOR)
+    @background = Square.from_center(@window, center, width)
+    @base_layer = Gosu::Image.new(@window, 'media/pipe-background.png')
+    @top_layer = Gosu::Image.new(@window, 'media/pipe-overlay.png')
     @window.listen(:mouse_down, method(:on_mouse_down))
+  end
+
+  def draw
+    @base_layer.draw(left, top, 0)
+    @top_layer.draw(left, top, 0)
   end
 
   def snap_to(cell)
     @cell = cell
     move_to(cell.top_left)
     @window.stop_listening(:mouse_down, method(:on_mouse_down))
-  end
-
-  def start_dragging
-    super
-    @background.color = TILE_HIGHLIGHT_COLOR
-  end
-
-  def stop_dragging
-    super
-    @background.color = TILE_COLOR
   end
 
   private
