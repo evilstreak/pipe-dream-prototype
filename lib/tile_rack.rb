@@ -12,17 +12,12 @@ class TileRack
 
     @tiles = build_tiles(tile_count)
 
-    @window.listen(:mouse_down, method(:on_mouse_down))
     @window.listen(:tile_snap, method(:on_tile_snap))
   end
 
   def draw
     @background.draw
     @tiles.each(&:draw)
-  end
-
-  def on_mouse_down
-    @tiles.each(&:on_mouse_down) if under_mouse?
   end
 
   def on_tile_snap(tile)

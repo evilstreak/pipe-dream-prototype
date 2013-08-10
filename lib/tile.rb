@@ -10,6 +10,8 @@ class Tile < Rectangle
   def initialize(window, center, width)
     super(window, center.x - width / 2, center.y - width / 2,
           center.x + width / 2, center.y + width / 2)
+
+    @window.listen(:mouse_down, method(:on_mouse_down))
   end
 
   def left
