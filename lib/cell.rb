@@ -20,6 +20,7 @@ class Cell
     @background = Square.from_center(@window, center, width - BORDER_WIDTH,
                                      BACKGROUND_COLOR)
 
+    @window.listen(:tile_drag, method(:on_tile_drag))
     @window.listen(:tile_drop, method(:on_tile_drop))
   end
 
@@ -37,11 +38,16 @@ class Cell
     !@tile.nil?
   end
 
+  def on_tile_drag(dragged_tile)
+    self.color = will_snap?(dragged_tile) ? HIGHLIGHT_COLOR : BACKGROUND_COLOR
+  end
+
   def on_tile_drop(dropped_tile)
     if will_snap?(dropped_tile)
       @tile = dropped_tile
       @tile.move_to(top_left)
       @window.emit(:tile_snap, @tile)
     end
+    self.color = BACKGROUND_COLOR
   end
 end

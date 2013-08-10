@@ -9,30 +9,10 @@ class Grid
     @cells = rows.times.flat_map do |row_index|
       build_row(top_left.offset(0, row_index * cell_size), columns, cell_size)
     end
-
-    @window.listen(:tile_drag, method(:snap))
-    @window.listen(:tile_drop, method(:drop))
-  end
-
-  def update
-    @cells.each { |cell| cell.color = CELL_COLOR }
-    if @draggable
-      cell = snap_cell(@draggable)
-      cell.color = CELL_HIGHLIGHT_COLOR if cell
-    end
   end
 
   def draw
     @cells.each(&:draw)
-  end
-
-  # Show where this draggable should snap to when dropped
-  def snap(draggable)
-    @draggable = draggable
-  end
-
-  def drop(dropped_tile)
-    @draggable = nil
   end
 
   private

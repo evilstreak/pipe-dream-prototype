@@ -4,13 +4,14 @@ module Draggable
   def start_dragging
     @draggable_origin = @window.mouse_position
     @window.listen(:mouse_up, method(:stop_dragging))
-    @window.emit(drag_event, self)
+    @window.listen(:mouse_move, method(:on_mouse_move))
   end
 
   def stop_dragging
     @window.emit(drop_event, self) if dragging?
     @draggable_origin = nil
     @window.stop_listening(:mouse_up, method(:stop_dragging))
+    @window.stop_listening(:mouse_move, method(:on_mouse_move))
   end
 
   def dragging?
@@ -18,6 +19,10 @@ module Draggable
   end
 
   private
+
+  def on_mouse_move(position)
+    @window.emit(drag_event, self)
+  end
 
   def offset_x
     dragging? ? @window.mouse_x - @draggable_origin.x : 0

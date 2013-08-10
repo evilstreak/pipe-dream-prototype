@@ -18,7 +18,6 @@ class MainWindow < Gosu::Window
   # Called 60 times per second to update game state.
   def update
     emit_mouse_move_event
-    @grid.update
   end
 
   # Usually called after update, sometimes more or less frequently due to
