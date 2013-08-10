@@ -17,6 +17,7 @@ class MainWindow < Gosu::Window
 
   # Called 60 times per second to update game state.
   def update
+    emit_mouse_move_event
     @grid.update
   end
 
@@ -49,6 +50,16 @@ class MainWindow < Gosu::Window
 
   def mouse_position
     Point.new(mouse_x, mouse_y)
+  end
+
+  private
+
+  def emit_mouse_move_event
+    new_position = mouse_position
+    if new_position != @mouse_previous_position
+      emit(:mouse_move, new_position)
+      @mouse_previous_position = new_position
+    end
   end
 end
 
