@@ -5,6 +5,7 @@ module Draggable
     if draggable?
       @draggable_origin = Point.new(@window.mouse_x, @window.mouse_y)
       @droppable.snap(self)
+      @window.listen(:mouse_up, method(:stop_dragging))
     end
   end
 
@@ -18,6 +19,8 @@ module Draggable
       end
       @draggable_origin = nil
     end
+
+    @window.stop_listening(:mouse_up, method(:stop_dragging))
   end
 
   def dragging?

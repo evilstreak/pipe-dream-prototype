@@ -9,7 +9,6 @@ class TileRack
     @tiles = build_tiles(window, top_left, bottom_right, tile_count, droppable)
 
     window.listen(:mouse_down, method(:on_mouse_down))
-    window.listen(:mouse_up, method(:on_mouse_up))
     window.listen(:tile_drop, method(:on_tile_drop))
   end
 
@@ -20,10 +19,6 @@ class TileRack
 
   def on_mouse_down
     @tiles.each(&:on_mouse_down) if under_mouse?
-  end
-
-  def on_mouse_up
-    @tiles.each(&:stop_dragging)
   end
 
   def on_tile_drop(tile)
