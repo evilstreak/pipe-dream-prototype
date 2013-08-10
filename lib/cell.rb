@@ -45,7 +45,7 @@ class Cell
   def on_tile_drop(dropped_tile)
     if will_snap?(dropped_tile)
       @tile = dropped_tile
-      @tile.move_to(top_left)
+      @tile.snap_to(self)
       @window.emit(:tile_snap, @tile)
     end
     self.color = BACKGROUND_COLOR
