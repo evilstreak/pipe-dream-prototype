@@ -1,16 +1,19 @@
-require './lib/rectangle.rb'
+require 'forwardable'
+require './lib/square.rb'
 require './lib/draggable.rb'
 
-class Tile < Rectangle
+class Tile
   include Draggable
+  extend Forwardable
 
   TILE_COLOR = Gosu::Color::BLUE
   TILE_HIGHLIGHT_COLOR = Gosu::Color::GREEN
 
-  def initialize(window, center, width)
-    super(window, center.x - width / 2, center.y - width / 2,
-          center.x + width / 2, center.y + width / 2, TILE_COLOR)
+  def_delegators :@background, :draw, :move_to, :top_left, :offset, :under_mouse?, :center
 
+  def initialize(window, center, width)
+    @window = window
+    @background = Square.from_center(@window, center, width, TILE_COLOR)
     @window.listen(:mouse_down, method(:on_mouse_down))
   end
 
@@ -22,12 +25,12 @@ class Tile < Rectangle
 
   def start_dragging
     super
-    self.color = TILE_HIGHLIGHT_COLOR
+    @background.color = TILE_HIGHLIGHT_COLOR
   end
 
   def stop_dragging
     super
-    self.color = TILE_COLOR
+    @background.color = TILE_COLOR
   end
 
   private
