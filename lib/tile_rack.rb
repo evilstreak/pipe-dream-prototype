@@ -12,6 +12,7 @@ class TileRack
 
     @tiles = build_tiles(tile_count)
 
+    @window.listen(:tile_drop, method(:on_tile_drop))
     @window.listen(:tile_snap, method(:on_tile_snap))
   end
 
@@ -21,6 +22,12 @@ class TileRack
   end
 
   private
+
+  # FIXME: This is going to conflict with Cell#on_tile_drop. It only works if
+  #   the Cell register its event listener first.
+  def on_tile_drop(dropped_tile)
+    layout_tiles
+  end
 
   def on_tile_snap(snapped_tile)
     # Replace the snapped tile with a new one in the same position

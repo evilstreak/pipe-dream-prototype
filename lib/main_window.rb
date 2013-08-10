@@ -56,7 +56,7 @@ class MainWindow < Gosu::Window
   def emit_mouse_move_event
     new_position = mouse_position
     if new_position != @mouse_previous_position
-      emit(:mouse_move, new_position)
+      emit(:mouse_move, @mouse_previous_position, new_position)
       @mouse_previous_position = new_position
     end
   end

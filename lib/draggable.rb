@@ -2,7 +2,7 @@ require './lib/point.rb'
 
 module Draggable
   def start_dragging
-    @draggable_origin = @window.mouse_position
+    @draggable_origin = top_left
     @window.listen(:mouse_up, method(:stop_dragging))
     @window.listen(:mouse_move, method(:on_mouse_move))
   end
@@ -20,16 +20,9 @@ module Draggable
     !@draggable_origin.nil?
   end
 
-  def on_mouse_move(position)
+  def on_mouse_move(old_position, new_position)
+    offset(new_position.x - old_position.x, new_position.y - old_position.y)
     @window.emit(drag_event, self)
-  end
-
-  def offset_x
-    dragging? ? @window.mouse_x - @draggable_origin.x : 0
-  end
-
-  def offset_y
-    dragging? ? @window.mouse_y - @draggable_origin.y : 0
   end
 
   def drag_event

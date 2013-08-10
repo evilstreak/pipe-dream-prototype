@@ -9,35 +9,25 @@ class Tile < Rectangle
 
   def initialize(window, center, width)
     super(window, center.x - width / 2, center.y - width / 2,
-          center.x + width / 2, center.y + width / 2)
+          center.x + width / 2, center.y + width / 2, TILE_COLOR)
 
     @window.listen(:mouse_down, method(:on_mouse_down))
-  end
-
-  def left
-    @left + offset_x
-  end
-
-  def right
-    @right + offset_x
-  end
-
-  def top
-    @top + offset_y
-  end
-
-  def bottom
-    @bottom + offset_y
-  end
-
-  def color
-    dragging? ? TILE_HIGHLIGHT_COLOR : TILE_COLOR
   end
 
   def snap_to(cell)
     @cell = cell
     move_to(cell.top_left)
     @window.stop_listening(:mouse_down, method(:on_mouse_down))
+  end
+
+  def start_dragging
+    super
+    self.color = TILE_HIGHLIGHT_COLOR
+  end
+
+  def stop_dragging
+    super
+    self.color = TILE_COLOR
   end
 
   private
