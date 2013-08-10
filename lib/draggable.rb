@@ -4,8 +4,8 @@ module Draggable
   def start_dragging
     if draggable?
       @draggable_origin = Point.new(@window.mouse_x, @window.mouse_y)
-      @droppable.snap(self)
       @window.listen(:mouse_up, method(:stop_dragging))
+      @window.emit(drag_event, self)
     end
   end
 
@@ -39,6 +39,10 @@ module Draggable
 
   def offset_y
     dragging? ? @window.mouse_y - @draggable_origin.y : 0
+  end
+
+  def drag_event
+    :"#{self.class.name.downcase}_drag"
   end
 
   def drop_event

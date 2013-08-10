@@ -14,6 +14,8 @@ class Grid
       build_row(window, top_left.offset(0, row_index * cell_size), columns,
                 cell_size)
     end
+
+    window.listen(:tile_drag, method(:snap))
   end
 
   def update
