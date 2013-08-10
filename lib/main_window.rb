@@ -46,6 +46,10 @@ class MainWindow < Gosu::Window
       emit(:mouse_up)
     end
   end
+
+  def mouse_position
+    Point.new(mouse_x, mouse_y)
+  end
 end
 
 MainWindow.new.show

@@ -102,7 +102,7 @@ class Rectangle
   end
 
   def under_mouse?
-    contains_point?(Point.new(@window.mouse_x, @window.mouse_y))
+    contains_point?(@window.mouse_position)
   end
 
   def contains_point?(point)

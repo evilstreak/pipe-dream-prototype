@@ -2,7 +2,7 @@ require './lib/point.rb'
 
 module Draggable
   def start_dragging
-    @draggable_origin = Point.new(@window.mouse_x, @window.mouse_y)
+    @draggable_origin = @window.mouse_position
     @window.listen(:mouse_up, method(:stop_dragging))
     @window.emit(drag_event, self)
   end
