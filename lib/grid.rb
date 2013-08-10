@@ -10,12 +10,14 @@ class Grid
   CELL_PADDING = 1
 
   def initialize(window, top_left, columns, rows, cell_size)
+    @window = window
     @cells = rows.times.flat_map do |row_index|
       build_row(window, top_left.offset(0, row_index * cell_size), columns,
                 cell_size)
     end
 
-    window.listen(:tile_drag, method(:snap))
+    @window.listen(:tile_drag, method(:snap))
+    @window.listen(:tile_drop, method(:drop))
   end
 
   def update
@@ -36,11 +38,14 @@ class Grid
   end
 
   # @returns the point this draggable should snap to, or nil if it won't snap
-  def drop
+  def drop(foo)
     cell = snap_cell(@draggable)
-    cell.tile = @draggable if cell
+    if cell
+      cell.tile = @draggable
+      @draggable.move_to(cell.top_left)
+      @window.emit(:tile_snap, @draggable)
+    end
     @draggable = nil
-    cell.top_left if cell
   end
 
   private

@@ -10,16 +10,8 @@ module Draggable
   end
 
   def stop_dragging
-    if dragging?
-      snap_point = @droppable.drop
-      if snap_point
-        offset(snap_point.x - @left, snap_point.y - @top)
-        @droppable = nil
-        @window.emit(drop_event, self)
-      end
-      @draggable_origin = nil
-    end
-
+    @window.emit(drop_event, self) if dragging?
+    @draggable_origin = nil
     @window.stop_listening(:mouse_up, method(:stop_dragging))
   end
 

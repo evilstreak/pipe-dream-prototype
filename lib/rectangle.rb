@@ -89,6 +89,11 @@ class Rectangle
     @bottom += y
   end
 
+  # Move the rectangle to a given point (top-left)
+  def move_to(point)
+    offset(point.x - @left, point.y - @top)
+  end
+
   def draw
     @window.draw_quad(left, top, color,
                       right, top, color,
