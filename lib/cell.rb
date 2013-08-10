@@ -15,9 +15,12 @@ class Cell
   def_delegators :@border, :top_left, :contains_point?
 
   def initialize(window, center, width)
-    @border = Square.from_center(window, center, width, BORDER_COLOR)
-    @background = Square.from_center(window, center, width - BORDER_WIDTH,
+    @window = window
+    @border = Square.from_center(@window, center, width, BORDER_COLOR)
+    @background = Square.from_center(@window, center, width - BORDER_WIDTH,
                                      BACKGROUND_COLOR)
+
+    @window.listen(:tile_drop, method(:on_tile_drop))
   end
 
   def draw
@@ -32,5 +35,13 @@ class Cell
 
   def filled?
     !@tile.nil?
+  end
+
+  def on_tile_drop(dropped_tile)
+    if will_snap?(dropped_tile)
+      @tile = dropped_tile
+      @tile.move_to(top_left)
+      @window.emit(:tile_snap, @tile)
+    end
   end
 end

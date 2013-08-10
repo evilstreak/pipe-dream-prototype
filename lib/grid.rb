@@ -34,14 +34,7 @@ class Grid
     @draggable = draggable
   end
 
-  # @returns the point this draggable should snap to, or nil if it won't snap
-  def drop(foo)
-    cell = snap_cell(@draggable)
-    if cell
-      cell.tile = @draggable
-      @draggable.move_to(cell.top_left)
-      @window.emit(:tile_snap, @draggable)
-    end
+  def drop(dropped_tile)
     @draggable = nil
   end
 
