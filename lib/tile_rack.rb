@@ -1,4 +1,5 @@
 require './lib/rectangle.rb'
+require './lib/tile.rb'
 
 class TileRack
   RACK_COLOR = Gosu::Color::GRAY

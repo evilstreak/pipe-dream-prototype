@@ -1,4 +1,4 @@
-require './lib/square.rb'
+require './lib/rectangle.rb'
 require './lib/draggable.rb'
 
 class Tile < Rectangle

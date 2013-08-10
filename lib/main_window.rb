@@ -1,6 +1,5 @@
 require 'gosu'
 require './lib/point.rb'
-require './lib/tile.rb'
 require './lib/grid.rb'
 require './lib/tile_rack.rb'
 require './lib/eventable.rb'

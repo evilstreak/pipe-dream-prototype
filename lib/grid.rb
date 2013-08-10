@@ -1,6 +1,3 @@
-require './lib/point.rb'
-require './lib/rectangle.rb'
-require './lib/square.rb'
 require './lib/cell.rb'
 
 class Grid
