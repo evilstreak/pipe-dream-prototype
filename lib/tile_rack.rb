@@ -20,9 +20,7 @@ class TileRack
     @tiles.each(&:draw)
   end
 
-  def on_tile_snap(tile)
-    @tiles.delete(tile)
-  end
+  private
 
   def on_tile_snap(snapped_tile)
     # Replace the snapped tile with a new one in the same position
@@ -32,8 +30,6 @@ class TileRack
 
     layout_tiles
   end
-
-  private
 
   def under_mouse?
     @background.under_mouse?

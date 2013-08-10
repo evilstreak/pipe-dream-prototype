@@ -17,10 +17,6 @@ class Grid
 
   private
 
-  def snap_cell(draggable)
-    @cells.find { |cell| cell.will_snap?(draggable) }
-  end
-
   def build_row(top_left, cell_count, cell_size)
     center = top_left.offset(cell_size / 2, cell_size / 2)
     cell_count.times.map do |cell_index|

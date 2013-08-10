@@ -14,11 +14,11 @@ module Draggable
     @window.stop_listening(:mouse_move, method(:on_mouse_move))
   end
 
+  private
+
   def dragging?
     !@draggable_origin.nil?
   end
-
-  private
 
   def on_mouse_move(position)
     @window.emit(drag_event, self)

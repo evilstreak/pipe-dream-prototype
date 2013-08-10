@@ -30,6 +30,8 @@ class Cell
     @tile.draw if filled?
   end
 
+  private
+
   def will_snap?(draggable)
     !filled? && contains_point?(draggable.center)
   end
