@@ -2,11 +2,9 @@ require './lib/point.rb'
 
 module Draggable
   def start_dragging
-    if draggable?
-      @draggable_origin = Point.new(@window.mouse_x, @window.mouse_y)
-      @window.listen(:mouse_up, method(:stop_dragging))
-      @window.emit(drag_event, self)
-    end
+    @draggable_origin = Point.new(@window.mouse_x, @window.mouse_y)
+    @window.listen(:mouse_up, method(:stop_dragging))
+    @window.emit(drag_event, self)
   end
 
   def stop_dragging
@@ -17,10 +15,6 @@ module Draggable
 
   def dragging?
     !@draggable_origin.nil?
-  end
-
-  def draggable?
-    !@droppable.nil?
   end
 
   private
