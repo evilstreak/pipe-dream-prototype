@@ -12,7 +12,7 @@ class MainWindow < Gosu::Window
     self.caption = 'Pipe Dreams'
 
     @grid = Grid.new(self, Point.new(80, 80), 5, 5, 96)
-    @rack = TileRack.new(self, Point.new(640,80), Point.new(880,560), 4, @grid)
+    @rack = TileRack.new(self, Point.new(640,80), Point.new(880,560), 4)
   end
 
   # Called 60 times per second to update game state.

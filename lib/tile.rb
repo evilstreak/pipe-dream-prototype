@@ -7,10 +7,9 @@ class Tile < Rectangle
   TILE_COLOR = Gosu::Color::BLUE
   TILE_HIGHLIGHT_COLOR = Gosu::Color::GREEN
 
-  def initialize(window, center, width, droppable)
+  def initialize(window, center, width)
     super(window, center.x - width / 2, center.y - width / 2,
           center.x + width / 2, center.y + width / 2)
-    @droppable = droppable
   end
 
   def left
