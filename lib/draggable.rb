@@ -14,6 +14,7 @@ module Draggable
       if snap_point
         offset(snap_point.x - @left, snap_point.y - @top)
         @droppable = nil
+        @window.emit(drop_event, self)
       end
       @draggable_origin = nil
     end
@@ -35,5 +36,9 @@ module Draggable
 
   def offset_y
     dragging? ? @window.mouse_y - @draggable_origin.y : 0
+  end
+
+  def drop_event
+    :"#{self.class.name.downcase}_drop"
   end
 end

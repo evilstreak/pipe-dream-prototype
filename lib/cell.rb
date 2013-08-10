@@ -23,6 +23,7 @@ class Cell
   def draw
     @border.draw
     @background.draw
+    @tile.draw if filled?
   end
 
   def will_snap?(draggable)

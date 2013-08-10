@@ -10,6 +10,7 @@ class TileRack
 
     window.listen(:mouse_down, method(:on_mouse_down))
     window.listen(:mouse_up, method(:on_mouse_up))
+    window.listen(:tile_drop, method(:on_tile_drop))
   end
 
   def draw
@@ -23,6 +24,10 @@ class TileRack
 
   def on_mouse_up
     @tiles.each(&:stop_dragging)
+  end
+
+  def on_tile_drop(tile)
+    @tiles.delete(tile)
   end
 
   private
