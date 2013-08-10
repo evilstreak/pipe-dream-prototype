@@ -30,6 +30,12 @@ class Cell
     @tile.draw if filled?
   end
 
+  # Route the flow onto the next cell
+  def route_flow(exit_sides)
+    # TODO: Lol
+    puts "Routing flow onwards: #{exit_sides}"
+  end
+
   private
 
   def will_snap?(draggable)

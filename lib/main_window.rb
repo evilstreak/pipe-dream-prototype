@@ -13,11 +13,14 @@ class MainWindow < Gosu::Window
 
     @grid = Grid.new(self, Point.new(80, 80), 5, 5, 96)
     @rack = TileRack.new(self, Point.new(640,80), Point.new(880,560), 4)
+
+    listen(:flow_blocked, method(:game_over))
   end
 
   # Called 60 times per second to update game state.
   def update
     emit_mouse_move_event
+    emit(:update)
   end
 
   # Usually called after update, sometimes more or less frequently due to
@@ -49,6 +52,10 @@ class MainWindow < Gosu::Window
 
   def mouse_position
     Point.new(mouse_x, mouse_y)
+  end
+
+  def game_over
+    puts 'Game over, flow blocked, you lose.'
   end
 
   private
