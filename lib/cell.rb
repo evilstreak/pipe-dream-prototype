@@ -34,14 +34,20 @@ class Cell
   # Route the flow onto the next cell
   def route_flow(exit_sides)
     exit_sides.each do |side|
-      entry_side = case side
-                   when :left then :right
-                   when :right then :left
-                   when :top then :bottom
-                   when :bottom then :top
-                   end
+      neighbour = send("#{side}_neighbour")
 
-      send("#{side}_neighbour").start_flow(entry_side)
+      if neighbour
+        entry_side = case side
+                     when :left then :right
+                     when :right then :left
+                     when :top then :bottom
+                     when :bottom then :top
+                     end
+
+        neighbour.start_flow(entry_side)
+      else
+        @window.emit(:flow_blocked)
+      end
     end
   end
 
