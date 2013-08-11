@@ -1,5 +1,6 @@
 require 'forwardable'
 require './lib/square.rb'
+require './lib/direction.rb'
 
 class Cell
   extend Forwardable
@@ -37,13 +38,7 @@ class Cell
       neighbour = send("#{side}_neighbour")
 
       if neighbour
-        entry_side = case side
-                     when :left then :right
-                     when :right then :left
-                     when :top then :bottom
-                     when :bottom then :top
-                     end
-
+        entry_side = Direction.opposite(side)
         neighbour.start_flow(entry_side)
       else
         @window.emit(:flow_blocked)
