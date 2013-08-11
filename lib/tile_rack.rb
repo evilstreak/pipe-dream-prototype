@@ -1,5 +1,5 @@
 require './lib/rectangle.rb'
-require './lib/tile.rb'
+require './lib/tile/straight.rb'
 
 class TileRack
   RACK_COLOR = Gosu::Color::GRAY
@@ -48,7 +48,7 @@ class TileRack
   end
 
   def build_tile
-    Tile.new(@window, Point.new(0, 0), TILE_WIDTH)
+    Tile::Straight.new(@window, Point.new(0, 0), TILE_WIDTH)
   end
 
   def layout_tiles

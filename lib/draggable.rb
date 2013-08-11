@@ -26,10 +26,14 @@ module Draggable
   end
 
   def drag_event
-    :"#{self.class.name.downcase}_drag"
+    :"#{draggable_event_class}_drag"
   end
 
   def drop_event
-    :"#{self.class.name.downcase}_drop"
+    :"#{draggable_event_class}_drop"
+  end
+
+  def draggable_event_class
+    self.class.name.downcase
   end
 end
