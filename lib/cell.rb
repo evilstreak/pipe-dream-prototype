@@ -9,7 +9,8 @@ class Cell
   BACKGROUND_COLOR = Gosu::Color::GRAY
   HIGHLIGHT_COLOR = Gosu::Color::RED
 
-  attr_accessor :tile
+  attr_accessor :tile, :left_neighbour, :top_neighbour, :right_neighbour,
+                :bottom_neighbour
 
   def_delegators :@background, :color=
   def_delegators :@border, :top_left, :top_right, :contains_point?
