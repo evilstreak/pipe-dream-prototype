@@ -33,8 +33,24 @@ class Cell
 
   # Route the flow onto the next cell
   def route_flow(exit_sides)
-    # TODO: Lol
-    puts "Routing flow onwards: #{exit_sides}"
+    exit_sides.each do |side|
+      entry_side = case side
+                   when :left then :right
+                   when :right then :left
+                   when :top then :bottom
+                   when :bottom then :top
+                   end
+
+      send("#{side}_neighbour").start_flow(entry_side)
+    end
+  end
+
+  def start_flow(entry_side)
+    if filled?
+      @tile.start_flow(entry_side)
+    else
+      @window.emit(:flow_blocked)
+    end
   end
 
   private
