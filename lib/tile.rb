@@ -32,8 +32,6 @@ class Tile
     @cell = cell
     move_to(cell.top_left)
     @window.stop_listening(:mouse_down, method(:on_mouse_down))
-    # TODO: This is just temporary to get the flowing working!
-    start_flow(:left)
   end
 
   # Start pumping water into this tile. The tile will emit an event

@@ -15,6 +15,7 @@ class MainWindow < Gosu::Window
     @rack = TileRack.new(self, Point.new(640,80), Point.new(880,560), 4)
 
     listen(:flow_blocked, method(:game_over))
+    listen(:tile_snap, method(:start_flow))
   end
 
   # Called 60 times per second to update game state.
@@ -56,6 +57,11 @@ class MainWindow < Gosu::Window
 
   def game_over
     puts 'Game over, flow blocked, you lose.'
+  end
+
+  def start_flow(dropped_tile)
+    stop_listening(:tile_snap, method(:start_flow))
+    dropped_tile.start_flow(:left)
   end
 
   private
