@@ -12,7 +12,7 @@ class Cell
   attr_accessor :tile
 
   def_delegators :@background, :color=
-  def_delegators :@border, :top_left, :contains_point?
+  def_delegators :@border, :top_left, :top_right, :contains_point?
 
   def initialize(window, center, width)
     @window = window

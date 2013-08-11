@@ -4,19 +4,32 @@ class Grid
   CELL_COLOR = Gosu::Color::GRAY
   CELL_HIGHLIGHT_COLOR = Gosu::Color::RED
 
-  def initialize(window, top_left, columns, rows, cell_size)
+  def initialize(window, top_left, column_count, row_count, cell_size)
     @window = window
-    @cells = columns.times.flat_map do |col_index|
-      build_column(top_left.offset(col_index * cell_size, 0), rows, cell_size)
-    end
+    @row_count = row_count
+    @cell_size = cell_size
+
+    # Build the first column
+    @cells = []
+    @cells << build_column(top_left, @row_count, @cell_size)
+
+    # Add the rest of the columns
+    (column_count - 1).times { add_column }
   end
 
   def draw
-    @cells.each(&:draw)
+    @cells.flatten.each(&:draw)
   end
 
   private
 
+  def add_column
+    # Place this column next to the previous one
+    top_left = @cells.last.first.top_right
+    @cells << build_column(top_left, @row_count, @cell_size)
+  end
+
+  # Add another column to the right hand side of the grid
   def build_column(top_left, cell_count, cell_size)
     center = top_left.offset(cell_size / 2, cell_size / 2)
     cell_count.times.map do |cell_index|
