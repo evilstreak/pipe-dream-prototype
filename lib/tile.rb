@@ -6,7 +6,7 @@ class Tile
   include Draggable
   extend Forwardable
 
-  FLOW_SPEED = 2.0
+  FLOW_SPEED = 3.0
   WATER_COLOR = Gosu::Color::BLUE
 
   private_class_method :new
