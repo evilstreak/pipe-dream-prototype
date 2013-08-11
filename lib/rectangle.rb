@@ -51,7 +51,7 @@ class Rectangle
   end
 
   def top_right
-    Point.new(left, top)
+    Point.new(right, top)
   end
 
   def top_right=(point)
