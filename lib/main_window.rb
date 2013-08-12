@@ -11,8 +11,8 @@ class MainWindow < Gosu::Window
     super(960, 640, false)
     self.caption = 'Pipe Dreams'
 
-    @grid = Grid.new(self, Point.new(80, 80), 5, 5, 96)
-    @rack = TileRack.new(self, Point.new(640,80), Point.new(880,560), 4)
+    @grid = Grid.new(self, Point.new(80, 80), 7, 5, 96)
+    @rack = TileRack.new(self, Point.new(800,0), Point.new(960,640), 4)
 
     listen(:flow_blocked, method(:game_over))
     listen(:tile_snap, method(:start_flow))
