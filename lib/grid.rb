@@ -22,6 +22,10 @@ class Grid
     @cells.flatten.each(&:draw)
   end
 
+  def start_flow
+    @start_tile.start_flow(:left)
+  end
+
   private
 
   def build_start_column(top_left)
@@ -30,8 +34,12 @@ class Grid
     # Build a set of tiles to go into the cells
     start_index = rand(@row_count)
     column.each.with_index do |cell, index|
-      tile_class = (index == start_index) ? Tile::Straight : Tile::Block
-      tile = tile_class.new(@window, cell.center, 96, 0)
+      if index == start_index
+        tile = build_start_tile(cell.center)
+      else
+        tile = build_block_tile(cell.center)
+      end
+
       cell.tile = tile
       tile.cell = cell
     end
@@ -68,5 +76,13 @@ class Grid
     end
 
     column
+  end
+
+  def build_block_tile(center)
+    Tile::Block.new(@window, center, 96)
+  end
+
+  def build_start_tile(center)
+    @start_tile ||= Tile::Straight.new(@window, center, 96, 0)
   end
 end

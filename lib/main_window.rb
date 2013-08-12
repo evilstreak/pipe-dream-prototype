@@ -61,7 +61,7 @@ class MainWindow < Gosu::Window
 
   def start_flow(dropped_tile)
     stop_listening(:tile_snap, method(:start_flow))
-    dropped_tile.start_flow(:left)
+    @grid.start_flow
   end
 
   private
