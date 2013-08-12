@@ -14,7 +14,7 @@ class Cell
                 :bottom_neighbour
 
   def_delegators :@background, :color=
-  def_delegators :@border, :top_left, :top_right, :contains_point?
+  def_delegators :@border, :top_left, :top_right, :contains_point?, :center
 
   def initialize(window, center, width)
     @window = window

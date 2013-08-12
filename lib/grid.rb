@@ -1,4 +1,5 @@
 require './lib/cell.rb'
+require './lib/tile/block.rb'
 
 class Grid
   CELL_COLOR = Gosu::Color::GRAY
@@ -11,7 +12,7 @@ class Grid
 
     # Build the first column
     @cells = []
-    @cells << build_column(top_left, @row_count, @cell_size)
+    @cells << build_start_column(top_left)
 
     # Add the rest of the columns
     (column_count - 1).times { add_column }
@@ -23,12 +24,25 @@ class Grid
 
   private
 
+  def build_start_column(top_left)
+    column = build_column(top_left)
+
+    # Build a set of tiles to go into the cells
+    start_index = rand(@row_count)
+    column.each.with_index do |cell, index|
+      tile_class = (index == start_index) ? Tile::Straight : Tile::Block
+      tile = tile_class.new(@window, cell.center, 96, 0)
+      cell.tile = tile
+      tile.cell = cell
+    end
+  end
+
   def add_column
     last_column = @cells.last
 
     # Build a column the right of the previous one
     top_left = last_column.first.top_right
-    new_column = build_column(top_left, @row_count, @cell_size)
+    new_column = build_column(top_left)
 
     # Add references to left/right neighbours
     last_column.zip(new_column).each do |left, right|
@@ -40,11 +54,11 @@ class Grid
   end
 
   # Add another column to the right hand side of the grid
-  def build_column(top_left, cell_count, cell_size)
+  def build_column(top_left)
     # Build the cells
-    center = top_left.offset(cell_size / 2, cell_size / 2)
-    column = cell_count.times.map do |cell_index|
-      Cell.new(@window, center.offset(0, cell_index * cell_size), cell_size)
+    center = top_left.offset(@cell_size / 2, @cell_size / 2)
+    column = @row_count.times.map do |cell_index|
+      Cell.new(@window, center.offset(0, cell_index * @cell_size), @cell_size)
     end
 
     # Add references to top/bottom neighbours

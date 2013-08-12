@@ -9,19 +9,21 @@ class Tile
   FLOW_SPEED = 3.0
   WATER_COLOR = Gosu::Color::BLUE
 
+  attr_accessor :cell
+
   private_class_method :new
 
   def_delegators :@background, :move_to, :top_left, :offset, :under_mouse?,
                                :center, :left, :top, :right, :bottom, :width
 
-  def initialize(window, center, width)
+  def initialize(window, center, width, orientation = nil)
     @window = window
     @background = Square.from_center(@window, center, width)
     @base_layer = Gosu::Image.new(@window, 'media/pipe-background.png')
     @top_layer = Gosu::Image.new(@window, "media/#{top_layer_image}")
     @window.listen(:mouse_down, method(:on_mouse_down))
     @flow_progress = 0.0
-    @orientation = rand(4)
+    @orientation = orientation || rand(4)
   end
 
   def draw
