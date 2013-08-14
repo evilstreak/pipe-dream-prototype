@@ -26,12 +26,17 @@ class Grid
   def start_flow
     @start_tile.start_flow(:left)
     @window.listen(:update, method(:scroll_grid))
+    @window.listen(:flow_blocked, method(:on_flow_blocked))
   end
 
   def scroll_grid
     @cells.flatten.each do |cell|
       cell.offset(-1.0/60 * @cell_size / SCROLL_SPEED, 0)
     end
+  end
+
+  def on_flow_blocked
+    @window.stop_listening(:update, method(:scroll_grid))
   end
 
   private
