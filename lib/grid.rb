@@ -17,6 +17,10 @@ class Grid
 
     # Add columns until the screen is full
     add_column while @cells.last.first.onscreen?
+
+    # Set the obstacle chances
+    @obstacle_chance = 0.2
+    @extra_obstacle_chance = 0
   end
 
   def draw
@@ -59,13 +63,10 @@ class Grid
     start_index = rand(@row_count)
     column.each.with_index do |cell, index|
       if index == start_index
-        tile = build_start_tile(cell.center)
+        tile = build_start_tile(cell)
       else
-        tile = build_block_tile(cell.center)
+        tile = build_block_tile(cell)
       end
-
-      cell.tile = tile
-      tile.cell = cell
     end
   end
 
@@ -80,6 +81,11 @@ class Grid
     last_column.zip(new_column).each do |left, right|
       left.right_neighbour = right
       right.left_neighbour = left
+    end
+
+    # Add obstacles
+    new_column.sample(random_tile_count).each do |cell|
+      build_block_tile(cell)
     end
 
     @cells << new_column
@@ -102,11 +108,31 @@ class Grid
     column
   end
 
-  def build_block_tile(center)
-    Tile::Block.new(@window, center, 96)
+  def build_block_tile(cell)
+    tile = Tile::Block.new(@window, cell.center, 96)
+    tile.snap_to(cell)
+    cell.tile = tile
   end
 
-  def build_start_tile(center)
-    @start_tile ||= Tile::Straight.new(@window, center, 96, 0)
+  def build_start_tile(cell)
+    @start_tile ||= Tile::Straight.new(@window, cell.center, 96, 0)
+    @start_tile.snap_to(cell)
+    cell.tile = @start_tile
+  end
+
+  def random_tile_count
+    return 0 unless @obstacle_chance && @obstacle_chance > 0
+
+    if rand < @obstacle_chance
+      if rand < @extra_obstacle_chance
+        @extra_obstacle_chance = 0
+        2
+      else
+        @extra_obstacle_chance += 0.2
+        1
+      end
+    else
+      0
+    end
   end
 end
