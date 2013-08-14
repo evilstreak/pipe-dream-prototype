@@ -33,10 +33,10 @@ class Grid
     @window.listen(:flow_blocked, method(:on_flow_blocked))
   end
 
-  def scroll_grid
+  def scroll_grid(time_elapsed)
     # Move existing cells
     @cells.flatten.each do |cell|
-      cell.offset(-1.0/60 * @cell_size / SCROLL_SPEED, 0)
+      cell.offset(-time_elapsed * @cell_size / SCROLL_SPEED, 0)
     end
 
     # If the leftmost column is off the screen remove it

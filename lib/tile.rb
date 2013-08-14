@@ -46,7 +46,6 @@ class Tile
     side = deoriented_side(entry_side)
 
     if flow_exits.include?(side)
-      @flow_start = Time.now
       @flow_entry_side = side
       @window.listen(:update, method(:pump_water))
     else
@@ -64,9 +63,13 @@ class Tile
     start_dragging if under_mouse?
   end
 
-  def pump_water
-    @flow_progress = [Time.now - @flow_start, FLOW_SPEED].min
-    end_flow if @flow_progress == FLOW_SPEED
+  def pump_water(time_elapsed)
+    @flow_progress += time_elapsed
+
+    if @flow_progress >= FLOW_SPEED
+      @flow_progress = FLOW_SPEED
+      end_flow
+    end
   end
 
   def end_flow

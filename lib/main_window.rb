@@ -16,12 +16,18 @@ class MainWindow < Gosu::Window
 
     listen(:flow_blocked, method(:game_over))
     listen(:tile_snap, method(:start_flow))
+
+    @last_update = Time.now
   end
 
   # Called 60 times per second to update game state.
   def update
     emit_mouse_move_event
-    emit(:update)
+
+    # Emit an update event with the amount of time since the last one
+    now = Time.now
+    emit(:update, now - @last_update)
+    @last_update = Time.now
   end
 
   # Usually called after update, sometimes more or less frequently due to
