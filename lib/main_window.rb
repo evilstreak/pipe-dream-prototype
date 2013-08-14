@@ -11,14 +11,7 @@ class MainWindow < Gosu::Window
     super(960, 640, false)
     self.caption = 'Pipe Dreams'
 
-    @grid = Grid.new(self, Point.new(80, 80), 5, 96)
-    @rack = TileRack.new(self, Point.new(800,0), Point.new(960,640), 4)
-
-    listen(:flow_blocked, method(:game_over))
-    listen(:tile_snap, method(:start_flow))
-
-    @last_update = Time.now
-    @speed_multiplier = 1.0
+    prepare_game
   end
 
   # Called 60 times per second to update game state.
@@ -67,14 +60,37 @@ class MainWindow < Gosu::Window
   end
 
   def game_over
+    stop_listening(:flow_blocked, method(:game_over))
     @game_running = false
     puts 'Game over, flow blocked, you lose.'
+    listen(:mouse_down, method(:restart_game))
   end
 
   def start_flow(dropped_tile)
     stop_listening(:tile_snap, method(:start_flow))
     @game_running = true
     @grid.start_flow
+  end
+
+  # Prepare a new game ready to be started
+  def prepare_game
+    @grid = Grid.new(self, Point.new(80, 80), 5, 96)
+    @rack = TileRack.new(self, Point.new(800,0), Point.new(960,640), 4)
+    @last_update = Time.now
+    @speed_multiplier = 1.0
+
+    listen(:flow_blocked, method(:game_over))
+    listen(:tile_snap, method(:start_flow))
+  end
+
+  # Tear down all the old stuff and prepare a new game
+  def restart_game
+    clear_all_listeners
+    prepare_game
+  end
+
+  def clear_all_listeners
+    @eventable_listeners = nil
   end
 
   private
