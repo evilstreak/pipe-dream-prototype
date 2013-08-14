@@ -54,6 +54,12 @@ class Cell
     end
   end
 
+  def offset(x, y)
+    @border.offset(x, y)
+    @background.offset(x, y)
+    @tile.offset(x, y) if @tile
+  end
+
   private
 
   def will_snap?(draggable)

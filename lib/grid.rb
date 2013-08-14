@@ -4,6 +4,7 @@ require './lib/tile/block.rb'
 class Grid
   CELL_COLOR = Gosu::Color::GRAY
   CELL_HIGHLIGHT_COLOR = Gosu::Color::RED
+  SCROLL_SPEED = 6.0
 
   def initialize(window, top_left, column_count, row_count, cell_size)
     @window = window
@@ -24,6 +25,13 @@ class Grid
 
   def start_flow
     @start_tile.start_flow(:left)
+    @window.listen(:update, method(:scroll_grid))
+  end
+
+  def scroll_grid
+    @cells.flatten.each do |cell|
+      cell.offset(-1.0/60 * @cell_size / SCROLL_SPEED, 0)
+    end
   end
 
   private
