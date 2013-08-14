@@ -6,7 +6,7 @@ class Grid
   CELL_HIGHLIGHT_COLOR = Gosu::Color::RED
   SCROLL_SPEED = 6.0
 
-  def initialize(window, top_left, column_count, row_count, cell_size)
+  def initialize(window, top_left, row_count, cell_size)
     @window = window
     @row_count = row_count
     @cell_size = cell_size
@@ -15,8 +15,8 @@ class Grid
     @cells = []
     @cells << build_start_column(top_left)
 
-    # Add the rest of the columns
-    (column_count - 1).times { add_column }
+    # Add columns until the screen is full
+    add_column while @cells.last.first.onscreen?
   end
 
   def draw
