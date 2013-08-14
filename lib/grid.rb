@@ -30,9 +30,21 @@ class Grid
   end
 
   def scroll_grid
+    # Move existing cells
     @cells.flatten.each do |cell|
       cell.offset(-1.0/60 * @cell_size / SCROLL_SPEED, 0)
     end
+
+    # If the leftmost column is off the screen remove it
+    if @cells.first.first.offscreen?
+      @cells.shift
+      @cells.first.each do |cell|
+        cell.left_neighbour = nil
+      end
+    end
+
+    # If the rightmost column is on the screen add a new one
+    add_column if @cells.last.first.onscreen?
   end
 
   def on_flow_blocked

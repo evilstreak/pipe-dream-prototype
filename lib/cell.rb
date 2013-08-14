@@ -60,6 +60,16 @@ class Cell
     @tile.offset(x, y) if @tile
   end
 
+  # The cell is offscreen if all parts of it are offscreen
+  def offscreen?
+    @border.right <= 0 || @border.left >= @window.width
+  end
+
+  # The cell is onscreen if all parts of it are onscreen
+  def onscreen?
+    @border.left >= 0 && @border.right <= @window.width
+  end
+
   private
 
   def will_snap?(draggable)
