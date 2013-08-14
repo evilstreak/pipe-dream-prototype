@@ -70,6 +70,18 @@ class Cell
     @border.left >= 0 && @border.right <= @window.width
   end
 
+  # Cleanup this cell for removal from the grid
+  def cleanup
+    # Check we don't have flowing water
+    @window.emit(:flow_blocked) if water_flowing?
+
+    # Remove neighbour references
+    Direction.cardinals.each do |side|
+      neighbour = send("#{side}_neighbour")
+      neighbour.send("#{Direction.opposite(side)}_neighbour=", nil) if neighbour
+    end
+  end
+
   private
 
   def will_snap?(draggable)
@@ -78,6 +90,10 @@ class Cell
 
   def filled?
     !@tile.nil?
+  end
+
+  def water_flowing?
+    filled? && @tile.water_flowing?
   end
 
   def on_tile_drag(dragged_tile)

@@ -37,9 +37,8 @@ class Grid
 
     # If the leftmost column is off the screen remove it
     if @cells.first.first.offscreen?
-      @cells.shift
-      @cells.first.each do |cell|
-        cell.left_neighbour = nil
+      @cells.shift.each do |cell|
+        cell.cleanup
       end
     end
 

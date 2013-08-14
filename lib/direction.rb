@@ -1,4 +1,8 @@
 module Direction
+  def self.cardinals
+    [:top, :right, :left, :bottom]
+  end
+
   def self.opposite(side)
     case side
     when :top then :bottom

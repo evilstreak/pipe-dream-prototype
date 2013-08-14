@@ -54,6 +54,10 @@ class Tile
     end
   end
 
+  def water_flowing?
+    @flow_progress > 0 && @flow_progress < FLOW_SPEED
+  end
+
   private
 
   def on_mouse_down
