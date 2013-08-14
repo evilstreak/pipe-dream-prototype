@@ -21,6 +21,9 @@ class Grid
     # Set the obstacle chances
     @obstacle_chance = 0.2
     @extra_obstacle_chance = 0
+
+    @window.listen(:update, method(:scroll_grid))
+    @window.listen(:flow_blocked, method(:on_flow_blocked))
   end
 
   def draw
@@ -29,8 +32,6 @@ class Grid
 
   def start_flow
     @start_tile.start_flow(:left)
-    @window.listen(:update, method(:scroll_grid))
-    @window.listen(:flow_blocked, method(:on_flow_blocked))
   end
 
   def scroll_grid(time_elapsed)

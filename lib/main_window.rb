@@ -25,12 +25,14 @@ class MainWindow < Gosu::Window
   def update
     emit_mouse_move_event
 
+    delta = Time.now - @last_update
+    @last_update += delta
+
     # Emit an update event with the amount of time since the last one
-    now = Time.now
-    delta = now - @last_update
-    emit(:update, delta * @speed_multiplier)
-    @speed_multiplier += delta / 60.0 if @game_running
-    @last_update = Time.now
+    if @game_running
+      emit(:update, delta * @speed_multiplier)
+      @speed_multiplier += delta / 60.0
+    end
   end
 
   # Usually called after update, sometimes more or less frequently due to
@@ -65,6 +67,7 @@ class MainWindow < Gosu::Window
   end
 
   def game_over
+    @game_running = false
     puts 'Game over, flow blocked, you lose.'
   end
 
