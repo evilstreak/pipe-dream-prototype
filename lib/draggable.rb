@@ -8,7 +8,10 @@ module Draggable
   end
 
   def stop_dragging
-    @window.emit(drop_event, self) if dragging?
+    if dragging?
+      @window.emit(drop_event, self)
+      @window.emit(:"#{drop_event}_hack", self)
+    end
     @draggable_origin = nil
     @window.stop_listening(:mouse_up, method(:stop_dragging))
     @window.stop_listening(:mouse_move, method(:on_mouse_move))

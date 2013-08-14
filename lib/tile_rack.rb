@@ -13,7 +13,7 @@ class TileRack
 
     @tiles = build_tiles(tile_count)
 
-    @window.listen(:tile_drop, method(:on_tile_drop))
+    @window.listen(:tile_drop_hack, method(:on_tile_drop))
     @window.listen(:tile_snap, method(:on_tile_snap))
   end
 
@@ -24,8 +24,8 @@ class TileRack
 
   private
 
-  # FIXME: This is going to conflict with Cell#on_tile_drop. It only works if
-  #   the Cell register its event listener first.
+  # TODO: This conflicts with Cell#on_tile_drop if it uses to tile_drop event.
+  #   It only works if the Cell register its event listener first.
   def on_tile_drop(dropped_tile)
     layout_tiles
   end
