@@ -18,6 +18,7 @@ class MainWindow < Gosu::Window
     listen(:tile_snap, method(:start_flow))
 
     @last_update = Time.now
+    @speed_multiplier = 1.0
   end
 
   # Called 60 times per second to update game state.
@@ -26,7 +27,9 @@ class MainWindow < Gosu::Window
 
     # Emit an update event with the amount of time since the last one
     now = Time.now
-    emit(:update, now - @last_update)
+    delta = now - @last_update
+    emit(:update, delta * @speed_multiplier)
+    @speed_multiplier += delta / 60.0 if @game_running
     @last_update = Time.now
   end
 
@@ -67,6 +70,7 @@ class MainWindow < Gosu::Window
 
   def start_flow(dropped_tile)
     stop_listening(:tile_snap, method(:start_flow))
+    @game_running = true
     @grid.start_flow
   end
 
