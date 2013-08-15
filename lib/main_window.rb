@@ -4,6 +4,7 @@ require './lib/grid.rb'
 require './lib/tile_rack.rb'
 require './lib/eventable.rb'
 require './lib/score.rb'
+require './lib/score_counter.rb'
 
 class MainWindow < Gosu::Window
   include Eventable
@@ -34,6 +35,7 @@ class MainWindow < Gosu::Window
   def draw
     @grid.draw
     @rack.draw
+    @counter.draw
     @gameover.draw(0, 188, 1) unless @gameover.nil?
   end
 
@@ -84,6 +86,7 @@ class MainWindow < Gosu::Window
     @grid = Grid.new(self, Point.new(80, 80), 5, 96)
     @rack = TileRack.new(self, Point.new(800,0), Point.new(960,640), 4)
     @score = Score.new(self)
+    @counter = ScoreCounter.new(self, @score, Point.new(760, 40))
     @last_update = Time.now
     @speed_multiplier = 1.0
 
