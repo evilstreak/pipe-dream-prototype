@@ -3,6 +3,7 @@ require './lib/point.rb'
 require './lib/grid.rb'
 require './lib/tile_rack.rb'
 require './lib/eventable.rb'
+require './lib/score.rb'
 
 class MainWindow < Gosu::Window
   include Eventable
@@ -33,7 +34,7 @@ class MainWindow < Gosu::Window
   def draw
     @grid.draw
     @rack.draw
-    @gameover.draw(0, 236, 1) unless @gameover.nil?
+    @gameover.draw(0, 188, 1) unless @gameover.nil?
   end
 
   # Enables display of the system cursor
@@ -63,10 +64,13 @@ class MainWindow < Gosu::Window
   def game_over
     stop_listening(:flow_blocked, method(:game_over))
     @game_running = false
-    @gameover = Gosu::Image.from_text(self, "Game over.\nClick to restart",
+    @gameover = Gosu::Image.from_text(self, game_over_text,
                                      'media/augustus.ttf', 72, 24, 960, :center)
-    puts 'Game over, flow blocked, you lose.'
     listen(:mouse_down, method(:restart_game))
+  end
+
+  def game_over_text
+    "Game over\n You scored #{@score}\nClick to restart"
   end
 
   def start_flow(dropped_tile)
@@ -79,6 +83,7 @@ class MainWindow < Gosu::Window
   def prepare_game
     @grid = Grid.new(self, Point.new(80, 80), 5, 96)
     @rack = TileRack.new(self, Point.new(800,0), Point.new(960,640), 4)
+    @score = Score.new(self)
     @last_update = Time.now
     @speed_multiplier = 1.0
 
