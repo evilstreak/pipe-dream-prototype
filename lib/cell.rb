@@ -85,7 +85,7 @@ class Cell
   private
 
   def will_snap?(draggable)
-    !filled? && contains_point?(draggable.center)
+    !filled? && contains_point?(draggable.center) && draggable.center.x <= 800
   end
 
   def filled?
