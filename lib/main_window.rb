@@ -33,6 +33,7 @@ class MainWindow < Gosu::Window
   def draw
     @grid.draw
     @rack.draw
+    @gameover.draw(0, 236, 1) unless @gameover.nil?
   end
 
   # Enables display of the system cursor
@@ -62,6 +63,8 @@ class MainWindow < Gosu::Window
   def game_over
     stop_listening(:flow_blocked, method(:game_over))
     @game_running = false
+    @gameover = Gosu::Image.from_text(self, "Game over.\nClick to restart",
+                                     'media/augustus.ttf', 72, 24, 960, :center)
     puts 'Game over, flow blocked, you lose.'
     listen(:mouse_down, method(:restart_game))
   end
@@ -85,6 +88,7 @@ class MainWindow < Gosu::Window
 
   # Tear down all the old stuff and prepare a new game
   def restart_game
+    @gameover = nil
     clear_all_listeners
     prepare_game
   end
