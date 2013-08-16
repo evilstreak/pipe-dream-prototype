@@ -19,7 +19,7 @@ class Grid
     add_column while @cells.last.first.onscreen?
 
     # Set the obstacle chances
-    @obstacle_chance = 0.2
+    @obstacle_chance = 0.3
     @extra_obstacle_chance = 0
 
     @window.listen(:update, method(:scroll_grid))
@@ -66,7 +66,7 @@ class Grid
       if index == start_index
         tile = build_start_tile(cell)
       else
-        tile = build_block_tile(cell)
+        tile = build_tile(Tile::Block, cell)
       end
     end
   end
@@ -86,7 +86,7 @@ class Grid
 
     # Add obstacles
     new_column.sample(random_tile_count).each do |cell|
-      build_block_tile(cell)
+      build_obstacle(cell)
     end
 
     @cells << new_column
@@ -109,16 +109,27 @@ class Grid
     column
   end
 
-  def build_block_tile(cell)
-    tile = Tile::Block.new(@window, cell.center, 96)
-    tile.snap_to(cell)
-    cell.tile = tile
+  def build_start_tile(cell)
+    @start_tile ||= build_tile(Tile::Straight, cell, 0)
   end
 
-  def build_start_tile(cell)
-    @start_tile ||= Tile::Straight.new(@window, cell.center, 96, 0)
-    @start_tile.snap_to(cell)
-    cell.tile = @start_tile
+  def build_obstacle(cell)
+    tile_class = case rand(10)
+    when 0..6
+      Tile::Block
+    when 7..8
+      Tile::Corner
+    when 9
+      Tile::Straight
+    end
+
+    build_tile(tile_class, cell)
+  end
+
+  def build_tile(tile_class, cell, orientation = nil)
+    tile = tile_class.new(@window, cell.center, 96, orientation)
+    tile.snap_to(cell)
+    cell.tile = tile
   end
 
   def random_tile_count
