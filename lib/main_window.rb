@@ -26,7 +26,7 @@ class MainWindow < Gosu::Window
     # Emit an update event with the amount of time since the last one
     if @game_running
       emit(:update, delta * @speed_multiplier)
-      @speed_multiplier += delta / 60.0
+      @speed_multiplier += delta / 90.0
     end
   end
 
