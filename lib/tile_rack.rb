@@ -3,7 +3,7 @@ require './lib/tile/straight.rb'
 require './lib/tile/corner.rb'
 
 class TileRack
-  RACK_COLOR = Gosu::Color::GRAY
+  RACK_COLOR = Gosu::Color.argb(0xff7f8c8d)
   TILE_WIDTH = 96
 
   def initialize(window, top_left, bottom_right, tile_count)

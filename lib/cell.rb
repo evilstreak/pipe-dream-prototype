@@ -6,9 +6,9 @@ class Cell
   extend Forwardable
 
   BORDER_WIDTH = 1
-  BORDER_COLOR = Gosu::Color::WHITE
-  BACKGROUND_COLOR = Gosu::Color::GRAY
-  HIGHLIGHT_COLOR = Gosu::Color::RED
+  BORDER_COLOR = Gosu::Color.argb(0xffecf0f1)
+  BACKGROUND_COLOR = Gosu::Color.argb(0xffbdc3c7)
+  HIGHLIGHT_COLOR = Gosu::Color.argb(0xffe74c3c)
 
   attr_accessor :tile, :left_neighbour, :top_neighbour, :right_neighbour,
                 :bottom_neighbour

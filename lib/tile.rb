@@ -7,7 +7,7 @@ class Tile
   extend Forwardable
 
   FLOW_SPEED = 5.0
-  WATER_COLOR = Gosu::Color::BLUE
+  WATER_COLOR = Gosu::Color.argb(0xff1abc9c)
 
   attr_accessor :cell
 
