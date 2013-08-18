@@ -4,6 +4,8 @@ require './lib/tile/loose_corner.rb'
 require './lib/tile/tight_corner.rb'
 require './lib/tile/wave_left.rb'
 require './lib/tile/wave_right.rb'
+require './lib/tile/hook_left.rb'
+require './lib/tile/hook_right.rb'
 
 class TileRack
   RACK_COLOR = Gosu::Color.argb(0xff7f8c8d)
@@ -52,12 +54,14 @@ class TileRack
   end
 
   def build_tile
-    tile_class = case rand(5)
+    tile_class = case rand(7)
     when 0 then Tile::Straight
     when 1 then Tile::LooseCorner
     when 2 then Tile::TightCorner
     when 3 then Tile::WaveLeft
     when 4 then Tile::WaveRight
+    when 5 then Tile::HookLeft
+    when 6 then Tile::HookRight
     end
 
     tile_class.new(@window, Point.new(0, 0), TILE_WIDTH)
