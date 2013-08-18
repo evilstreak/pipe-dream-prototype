@@ -1,5 +1,5 @@
 class ScoreCounter
-  FONT_NAME = 'media/augustus.ttf'
+  FONT_NAME = 'media/Lato-Reg.ttf'
 
   def initialize(window, score, top_right)
     @window = window

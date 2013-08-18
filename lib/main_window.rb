@@ -67,7 +67,7 @@ class MainWindow < Gosu::Window
     stop_listening(:flow_blocked, method(:game_over))
     @game_running = false
     @gameover = Gosu::Image.from_text(self, game_over_text,
-                                     'media/augustus.ttf', 72, 24, 960, :center)
+                                     'media/Lato-Reg.ttf', 72, 24, 960, :center)
     listen(:mouse_down, method(:restart_game))
   end
 
