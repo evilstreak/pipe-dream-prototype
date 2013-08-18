@@ -2,8 +2,6 @@ require './lib/cell.rb'
 require './lib/tile/block.rb'
 
 class Grid
-  CELL_COLOR = Gosu::Color::GRAY
-  CELL_HIGHLIGHT_COLOR = Gosu::Color::RED
   SCROLL_SPEED = 10.0
 
   def initialize(window, top_left, row_count, cell_size)
