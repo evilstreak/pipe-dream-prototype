@@ -7,7 +7,7 @@ class Tile::TightCorner < Tile
 
   def draw_water
     if @flow_progress > 0
-      progress = @flow_progress / FLOW_SPEED
+      progress = @flow_progress / pipe_length
 
       if progress <= 0.5
         if @flow_entry_point == :wnw
@@ -41,5 +41,9 @@ class Tile::TightCorner < Tile
 
   def top_layer_image
     'tight-corner.png'
+  end
+
+  def pipe_length
+    42.59
   end
 end

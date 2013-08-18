@@ -6,7 +6,7 @@ class Tile
   include Draggable
   extend Forwardable
 
-  FLOW_SPEED = 5.0
+  FLOW_SPEED = 20
   WATER_COLOR = Gosu::Color.argb(0xff1abc9c)
 
   attr_accessor :cell
@@ -57,7 +57,7 @@ class Tile
   end
 
   def water_flowing?
-    @flow_progress > 0 && @flow_progress < FLOW_SPEED
+    @flow_progress > 0 && @flow_progress < pipe_length
   end
 
   private
@@ -67,10 +67,10 @@ class Tile
   end
 
   def pump_water(time_elapsed)
-    @flow_progress += time_elapsed
+    @flow_progress += time_elapsed * FLOW_SPEED
 
-    if @flow_progress >= FLOW_SPEED
-      @flow_progress = FLOW_SPEED
+    if @flow_progress >= pipe_length
+      @flow_progress = pipe_length
       end_flow
     end
   end
