@@ -19,8 +19,8 @@ class Tile
   def initialize(window, center, width, orientation = nil)
     @window = window
     @background = Square.from_center(@window, center, width)
-    @base_layer = Gosu::Image.new(@window, 'media/pipe-background.png')
-    @top_layer = Gosu::Image.new(@window, "media/#{top_layer_image}")
+    @base_layer = Gosu::Image.new(@window, 'media/pipes/background.png')
+    @top_layer = Gosu::Image.new(@window, "media/pipes/#{top_layer_image}")
     @window.listen(:mouse_drag_start, method(:on_mouse_drag_start))
     @window.listen(:mouse_click, method(:on_mouse_click))
     @flow_progress = 0.0

@@ -27,6 +27,6 @@ class Tile::Straight < Tile
   end
 
   def top_layer_image
-    'pipe-overlay.png'
+    'straight.png'
   end
 end

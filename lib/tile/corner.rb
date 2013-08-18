@@ -40,6 +40,6 @@ class Tile::Corner < Tile
   end
 
   def top_layer_image
-    'pipe-corner.png'
+    'loose-corner.png'
   end
 end
