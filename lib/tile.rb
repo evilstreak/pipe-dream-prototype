@@ -22,6 +22,7 @@ class Tile
     @base_layer = Gosu::Image.new(@window, 'media/pipe-background.png')
     @top_layer = Gosu::Image.new(@window, "media/#{top_layer_image}")
     @window.listen(:mouse_drag_start, method(:on_mouse_drag_start))
+    @window.listen(:mouse_click, method(:on_mouse_click))
     @flow_progress = 0.0
     @orientation = orientation || rand(4)
   end
@@ -38,6 +39,7 @@ class Tile
     @cell = cell
     move_to(cell.top_left)
     @window.stop_listening(:mouse_drag_start, method(:on_mouse_drag_start))
+    @window.stop_listening(:mouse_click, method(:on_mouse_click))
   end
 
   # Start pumping water into this tile. The tile will emit an event
@@ -102,5 +104,13 @@ class Tile
     when 2 then Direction.opposite(side)
     when 3 then Direction.clockwise_from(side)
     end
+  end
+
+  def on_mouse_click(point)
+    rotate if contains_point?(point)
+  end
+
+  def rotate
+    @orientation = (@orientation + 1) % 4
   end
 end
