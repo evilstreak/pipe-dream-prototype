@@ -4,7 +4,7 @@ require 'releasy'
 
 Releasy::Project.new do
   name 'Pipe Dream Prototype'
-  version '0.2.0'
+  version '0.3.0'
 
   executable 'lib/main_window.rb'
   files %w(lib/**/*.rb media/**/*.*)
