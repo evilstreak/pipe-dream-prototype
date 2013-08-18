@@ -13,7 +13,7 @@ class Tile
 
   private_class_method :new
 
-  def_delegators :@background, :move_to, :top_left, :offset, :under_mouse?,
+  def_delegators :@background, :move_to, :top_left, :offset, :contains_point?,
                                :center, :left, :top, :right, :bottom, :width
 
   def initialize(window, center, width, orientation = nil)
@@ -21,7 +21,7 @@ class Tile
     @background = Square.from_center(@window, center, width)
     @base_layer = Gosu::Image.new(@window, 'media/pipe-background.png')
     @top_layer = Gosu::Image.new(@window, "media/#{top_layer_image}")
-    @window.listen(:mouse_down, method(:on_mouse_down))
+    @window.listen(:mouse_drag_start, method(:on_mouse_drag_start))
     @flow_progress = 0.0
     @orientation = orientation || rand(4)
   end
@@ -37,7 +37,7 @@ class Tile
   def snap_to(cell)
     @cell = cell
     move_to(cell.top_left)
-    @window.stop_listening(:mouse_down, method(:on_mouse_down))
+    @window.stop_listening(:mouse_drag_start, method(:on_mouse_drag_start))
   end
 
   # Start pumping water into this tile. The tile will emit an event
@@ -59,8 +59,8 @@ class Tile
 
   private
 
-  def on_mouse_down
-    start_dragging if under_mouse?
+  def on_mouse_drag_start(point)
+    start_dragging if contains_point?(point)
   end
 
   def pump_water(time_elapsed)

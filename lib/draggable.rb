@@ -3,18 +3,18 @@ require './lib/point.rb'
 module Draggable
   def start_dragging
     @draggable_origin = top_left
-    @window.listen(:mouse_up, method(:stop_dragging))
-    @window.listen(:mouse_move, method(:on_mouse_move))
+    @window.listen(:mouse_drag_end, method(:stop_dragging))
+    @window.listen(:mouse_drag_move, method(:on_mouse_move))
   end
 
-  def stop_dragging
+  def stop_dragging(point)
     if dragging?
       @window.emit(drop_event, self)
       @window.emit(:"#{drop_event}_hack", self)
     end
     @draggable_origin = nil
-    @window.stop_listening(:mouse_up, method(:stop_dragging))
-    @window.stop_listening(:mouse_move, method(:on_mouse_move))
+    @window.stop_listening(:mouse_drag_end, method(:stop_dragging))
+    @window.stop_listening(:mouse_drag_move, method(:on_mouse_move))
   end
 
   private
