@@ -1,6 +1,6 @@
 require './lib/tile.rb'
 
-class Tile::Corner < Tile
+class Tile::LooseCorner < Tile
   public_class_method :new
 
   private

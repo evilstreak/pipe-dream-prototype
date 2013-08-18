@@ -116,7 +116,7 @@ class Grid
     when 0..6
       Tile::Block
     when 7..8
-      Tile::Corner
+      Tile::LooseCorner
     when 9
       Tile::Straight
     end
