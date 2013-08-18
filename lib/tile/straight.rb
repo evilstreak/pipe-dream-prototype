@@ -7,7 +7,7 @@ class Tile::Straight < Tile
 
   def draw_water
     if @flow_progress > 0
-      if @flow_entry_side == :left
+      if @flow_entry_point == :wnw
         entry_side = left
         exit_side = left + width * @flow_progress / FLOW_SPEED
       else
@@ -23,7 +23,7 @@ class Tile::Straight < Tile
   end
 
   def flow_exits
-    [:left, :right]
+    [:wnw, :ene]
   end
 
   def top_layer_image

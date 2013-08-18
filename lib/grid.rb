@@ -29,7 +29,7 @@ class Grid
   end
 
   def start_flow
-    @start_tile.start_flow(:left)
+    @start_tile.start_flow(:wnw)
   end
 
   def scroll_grid(time_elapsed)

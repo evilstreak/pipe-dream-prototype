@@ -42,13 +42,14 @@ class Tile
     @window.stop_listening(:mouse_click, method(:on_mouse_click))
   end
 
-  # Start pumping water into this tile. The tile will emit an event
-  # @param entry_side one of :left, :top, :right, :bottom
-  def start_flow(entry_side)
-    side = deoriented_side(entry_side)
+  # Start pumping water into this tile. The tile will emit an event when the
+  # water has finished flowing.
+  # @param entry_point one of :nne, :ene, :ese, :sse, :ssw, :wsw, :wnw, :nnw
+  def start_flow(entry_point)
+    point = deoriented_exit(entry_point)
 
-    if flow_exits.include?(side)
-      @flow_entry_side = side
+    if flow_exits.include?(point)
+      @flow_entry_point = point
       @window.listen(:update, method(:pump_water))
     else
       @window.emit(:flow_blocked)
@@ -75,8 +76,8 @@ class Tile
   end
 
   def end_flow
-    exits = flow_exits.reject { |side| side == @flow_entry_side }
-                      .map { |side| oriented_side(side) }
+    exits = flow_exits.reject { |point| point == @flow_entry_point }
+                      .map { |point| oriented_exit(point) }
 
     @cell.route_flow(exits)
     @window.stop_listening(:update, method(:pump_water))
@@ -86,24 +87,22 @@ class Tile
     'tile'
   end
 
-  # Convert from internal -> external side after adjusting for rotation
-  def oriented_side(side)
-    case @orientation
-    when 0 then side
-    when 1 then Direction.clockwise_from(side)
-    when 2 then Direction.opposite(side)
-    when 3 then Direction.anticlockwise_from(side)
+  # Convert from internal -> external exit_point after adjusting for rotation
+  def oriented_exit(exit_point)
+    @orientation.times do
+      exit_point = Direction.clockwise_from(exit_point)
     end
+
+    exit_point
   end
 
-  # Convert from external -> internal side after adjusting for rotation
-  def deoriented_side(side)
-    case @orientation
-    when 0 then side
-    when 1 then Direction.anticlockwise_from(side)
-    when 2 then Direction.opposite(side)
-    when 3 then Direction.clockwise_from(side)
+  # Convert from external -> internal exit_point after adjusting for rotation
+  def deoriented_exit(exit_point)
+    @orientation.times do
+      exit_point = Direction.anticlockwise_from(exit_point)
     end
+
+    exit_point
   end
 
   def on_mouse_click(point)

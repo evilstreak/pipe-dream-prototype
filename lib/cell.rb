@@ -33,22 +33,23 @@ class Cell
   end
 
   # Route the flow onto the next cell
-  def route_flow(exit_sides)
-    exit_sides.each do |side|
+  def route_flow(exit_points)
+    exit_points.each do |exit_point|
+      side = Direction.exit_side(exit_point)
       neighbour = send("#{side}_neighbour")
 
       if neighbour
-        entry_side = Direction.opposite(side)
-        neighbour.start_flow(entry_side)
+        entry_point = Direction.opposite_exit(exit_point)
+        neighbour.start_flow(entry_point)
       else
         @window.emit(:flow_blocked)
       end
     end
   end
 
-  def start_flow(entry_side)
+  def start_flow(entry_point)
     if filled?
-      @tile.start_flow(entry_side)
+      @tile.start_flow(entry_point)
     else
       @window.emit(:flow_blocked)
     end
@@ -78,7 +79,8 @@ class Cell
     # Remove neighbour references
     Direction.cardinals.each do |side|
       neighbour = send("#{side}_neighbour")
-      neighbour.send("#{Direction.opposite(side)}_neighbour=", nil) if neighbour
+      our_side = "#{Direction.opposite_side(side)}_neighbour="
+      neighbour.send(our_side, nil) if neighbour
     end
   end
 

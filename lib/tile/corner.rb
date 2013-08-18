@@ -10,7 +10,7 @@ class Tile::Corner < Tile
       progress = @flow_progress / FLOW_SPEED
 
       if progress <= 0.5
-        if @flow_entry_side == :left
+        if @flow_entry_point == :wnw
           @window.draw_triangle(left, top, WATER_COLOR,
                                 left + width * progress * 2, top, WATER_COLOR,
                                 left, bottom, WATER_COLOR)
@@ -20,7 +20,7 @@ class Tile::Corner < Tile
                                 left, bottom, WATER_COLOR)
         end
       else
-        if @flow_entry_side == :left
+        if @flow_entry_point == :wnw
           @window.draw_quad(left, top, WATER_COLOR,
                             right, top, WATER_COLOR,
                             left, bottom, WATER_COLOR,
@@ -36,7 +36,7 @@ class Tile::Corner < Tile
   end
 
   def flow_exits
-    [:left, :bottom]
+    [:wnw, :sse]
   end
 
   def top_layer_image
