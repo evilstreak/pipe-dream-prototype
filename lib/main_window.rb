@@ -92,6 +92,9 @@ class MainWindow < Gosu::Window
 
     listen(:flow_blocked, method(:game_over))
     listen(:tile_snap, method(:start_flow))
+    listen(:mouse_down, method(:on_mouse_down))
+    listen(:mouse_up, method(:on_mouse_up))
+    listen(:mouse_move, method(:on_mouse_move))
   end
 
   # Tear down all the old stuff and prepare a new game
@@ -112,6 +115,36 @@ class MainWindow < Gosu::Window
     if new_position != @mouse_previous_position
       emit(:mouse_move, @mouse_previous_position, new_position)
       @mouse_previous_position = new_position
+    end
+  end
+
+  def on_mouse_down
+    @mouse_down_position = mouse_position
+  end
+
+  def on_mouse_up
+    if @mouse_dragging
+      emit(:mouse_drag_end, mouse_position)
+    else
+      emit(:mouse_click, @mouse_down_position)
+    end
+
+    @mouse_down_position = nil
+    @mouse_dragging = false
+  end
+
+  def on_mouse_move(old_position, new_position)
+    if @mouse_dragging
+      emit(:mouse_drag_move, old_position, new_position)
+    elsif @mouse_down_position
+      dx = new_position.x - @mouse_down_position.x
+      dy = new_position.y - @mouse_down_position.y
+
+      if dx.abs > 3 || dy.abs > 3
+        emit(:mouse_drag_start, @mouse_down_position)
+        @mouse_down_position = nil
+        @mouse_dragging = true
+      end
     end
   end
 end
