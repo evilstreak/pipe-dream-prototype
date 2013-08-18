@@ -112,16 +112,7 @@ class Grid
   end
 
   def build_obstacle(cell)
-    tile_class = case rand(10)
-    when 0..6
-      Tile::Block
-    when 7..8
-      Tile::LooseCorner
-    when 9
-      Tile::Straight
-    end
-
-    build_tile(tile_class, cell)
+    build_tile(Tile::Block, cell)
   end
 
   def build_tile(tile_class, cell, orientation = nil)
