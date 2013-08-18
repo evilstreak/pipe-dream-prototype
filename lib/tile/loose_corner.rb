@@ -1,16 +1,16 @@
 require './lib/tile.rb'
 
-class Tile::Corner < Tile
+class Tile::LooseCorner < Tile
   public_class_method :new
 
   private
 
   def draw_water
     if @flow_progress > 0
-      progress = @flow_progress / FLOW_SPEED
+      progress = @flow_progress / pipe_length
 
       if progress <= 0.5
-        if @flow_entry_side == :left
+        if @flow_entry_point == :wnw
           @window.draw_triangle(left, top, WATER_COLOR,
                                 left + width * progress * 2, top, WATER_COLOR,
                                 left, bottom, WATER_COLOR)
@@ -20,7 +20,7 @@ class Tile::Corner < Tile
                                 left, bottom, WATER_COLOR)
         end
       else
-        if @flow_entry_side == :left
+        if @flow_entry_point == :wnw
           @window.draw_quad(left, top, WATER_COLOR,
                             right, top, WATER_COLOR,
                             left, bottom, WATER_COLOR,
@@ -36,10 +36,14 @@ class Tile::Corner < Tile
   end
 
   def flow_exits
-    [:left, :bottom]
+    [:wnw, :sse]
   end
 
   def top_layer_image
-    'pipe-corner.png'
+    'loose-corner.png'
+  end
+
+  def pipe_length
+    119.53
   end
 end

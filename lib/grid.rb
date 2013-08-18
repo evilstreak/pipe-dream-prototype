@@ -29,7 +29,7 @@ class Grid
   end
 
   def start_flow
-    @start_tile.start_flow(:left)
+    @start_tile.start_flow(:wnw)
   end
 
   def scroll_grid(time_elapsed)
@@ -112,16 +112,7 @@ class Grid
   end
 
   def build_obstacle(cell)
-    tile_class = case rand(10)
-    when 0..6
-      Tile::Block
-    when 7..8
-      Tile::Corner
-    when 9
-      Tile::Straight
-    end
-
-    build_tile(tile_class, cell)
+    build_tile(Tile::Block, cell)
   end
 
   def build_tile(tile_class, cell, orientation = nil)

@@ -1,13 +1,13 @@
 require './lib/tile.rb'
 
-class Tile::Straight < Tile
+class Tile::WaveLeft < Tile
   public_class_method :new
 
   private
 
   def draw_water
     if @flow_progress > 0
-      if @flow_entry_point == :wnw
+      if @flow_entry_point == :wsw
         entry_side = left
         exit_side = left + width * @flow_progress / pipe_length
       else
@@ -23,14 +23,14 @@ class Tile::Straight < Tile
   end
 
   def flow_exits
-    [:wnw, :ene]
+    [:wsw, :ene]
   end
 
   def top_layer_image
-    'straight.png'
+    'wave-left.png'
   end
 
   def pipe_length
-    96.0
+    114.46
   end
 end

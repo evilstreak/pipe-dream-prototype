@@ -15,6 +15,6 @@ class Tile::Block < Tile
   end
 
   def top_layer_image
-    'pipe-block.png'
+    'block.png'
   end
 end

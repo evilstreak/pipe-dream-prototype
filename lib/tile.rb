@@ -6,7 +6,7 @@ class Tile
   include Draggable
   extend Forwardable
 
-  FLOW_SPEED = 5.0
+  FLOW_SPEED = 20
   WATER_COLOR = Gosu::Color.argb(0xff1abc9c)
 
   attr_accessor :cell
@@ -19,8 +19,8 @@ class Tile
   def initialize(window, center, width, orientation = nil)
     @window = window
     @background = Square.from_center(@window, center, width)
-    @base_layer = Gosu::Image.new(@window, 'media/pipe-background.png')
-    @top_layer = Gosu::Image.new(@window, "media/#{top_layer_image}")
+    @base_layer = Gosu::Image.new(@window, 'media/pipes/background.png')
+    @top_layer = Gosu::Image.new(@window, "media/pipes/#{top_layer_image}")
     @window.listen(:mouse_drag_start, method(:on_mouse_drag_start))
     @window.listen(:mouse_click, method(:on_mouse_click))
     @flow_progress = 0.0
@@ -42,13 +42,14 @@ class Tile
     @window.stop_listening(:mouse_click, method(:on_mouse_click))
   end
 
-  # Start pumping water into this tile. The tile will emit an event
-  # @param entry_side one of :left, :top, :right, :bottom
-  def start_flow(entry_side)
-    side = deoriented_side(entry_side)
+  # Start pumping water into this tile. The tile will emit an event when the
+  # water has finished flowing.
+  # @param entry_point one of :nne, :ene, :ese, :sse, :ssw, :wsw, :wnw, :nnw
+  def start_flow(entry_point)
+    point = deoriented_exit(entry_point)
 
-    if flow_exits.include?(side)
-      @flow_entry_side = side
+    if flow_exits.include?(point)
+      @flow_entry_point = point
       @window.listen(:update, method(:pump_water))
     else
       @window.emit(:flow_blocked)
@@ -56,7 +57,7 @@ class Tile
   end
 
   def water_flowing?
-    @flow_progress > 0 && @flow_progress < FLOW_SPEED
+    @flow_progress > 0 && @flow_progress < pipe_length
   end
 
   private
@@ -66,17 +67,17 @@ class Tile
   end
 
   def pump_water(time_elapsed)
-    @flow_progress += time_elapsed
+    @flow_progress += time_elapsed * FLOW_SPEED
 
-    if @flow_progress >= FLOW_SPEED
-      @flow_progress = FLOW_SPEED
+    if @flow_progress >= pipe_length
+      @flow_progress = pipe_length
       end_flow
     end
   end
 
   def end_flow
-    exits = flow_exits.reject { |side| side == @flow_entry_side }
-                      .map { |side| oriented_side(side) }
+    exits = flow_exits.reject { |point| point == @flow_entry_point }
+                      .map { |point| oriented_exit(point) }
 
     @cell.route_flow(exits)
     @window.stop_listening(:update, method(:pump_water))
@@ -86,24 +87,22 @@ class Tile
     'tile'
   end
 
-  # Convert from internal -> external side after adjusting for rotation
-  def oriented_side(side)
-    case @orientation
-    when 0 then side
-    when 1 then Direction.clockwise_from(side)
-    when 2 then Direction.opposite(side)
-    when 3 then Direction.anticlockwise_from(side)
+  # Convert from internal -> external exit_point after adjusting for rotation
+  def oriented_exit(exit_point)
+    @orientation.times do
+      exit_point = Direction.clockwise_from(exit_point)
     end
+
+    exit_point
   end
 
-  # Convert from external -> internal side after adjusting for rotation
-  def deoriented_side(side)
-    case @orientation
-    when 0 then side
-    when 1 then Direction.anticlockwise_from(side)
-    when 2 then Direction.opposite(side)
-    when 3 then Direction.clockwise_from(side)
+  # Convert from external -> internal exit_point after adjusting for rotation
+  def deoriented_exit(exit_point)
+    @orientation.times do
+      exit_point = Direction.anticlockwise_from(exit_point)
     end
+
+    exit_point
   end
 
   def on_mouse_click(point)

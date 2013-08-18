@@ -1,6 +1,6 @@
 require './lib/tile.rb'
 
-class Tile::Straight < Tile
+class Tile::WaveRight < Tile
   public_class_method :new
 
   private
@@ -23,14 +23,14 @@ class Tile::Straight < Tile
   end
 
   def flow_exits
-    [:wnw, :ene]
+    [:wnw, :ese]
   end
 
   def top_layer_image
-    'straight.png'
+    'wave-right.png'
   end
 
   def pipe_length
-    96.0
+    114.46
   end
 end
